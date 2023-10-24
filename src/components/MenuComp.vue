@@ -2,9 +2,10 @@
   <div class="menu-container">
     <h1>{{ title }}</h1>
     <div class="options">
-      <button @click="navigateToOption1">Create character</button>
-      <button @click="navigateToOption2">Create game</button>
-      <button @click="navigateToOption3">Show ranking</button>
+      <button @click="navigateToOption1">Create Character</button>
+      <button @click="navigateToOption2">Create Game</button>
+      <button @click="navigateToOption3">Show Ranking</button>
+      <button @click="navigateToOption4">Show Game</button>
     </div>
   </div>
 </template>
@@ -25,6 +26,9 @@ export default {
     },
     navigateToOption3() {
       this.$router.push('/showrank');
+    },
+    navigateToOption4() {
+      this.$router.push('/showgame');
     },
   },
 };

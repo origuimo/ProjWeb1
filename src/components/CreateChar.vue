@@ -25,7 +25,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('C:/Users/guimo/OneDrive - La Salle/La Salle 2.0/OneDrive - La Salle/La Salle 2023/2024/Proj. Web/Projecte/src/assets/images/fono2.jpg');
+  background-image: url('@/assets/images/fono2.jpg');
   background-size: 100%; /* Ajusta este valor según tus necesidades */
   background-position: center;
   background-repeat: no-repeat;

@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/HomeComp.vue';
 import Menu from '../components/MenuComp.vue';
-import NG from '../components/NewGame.vue';
+import NG from '../views/NewGame.vue';
 import CC from '../components/CreateChar.vue';
 import SR from '../components/ShowRanking.vue';
 import SG from '../components/ShowGame.vue';

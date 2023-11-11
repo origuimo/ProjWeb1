@@ -1,15 +1,15 @@
 import { createStore } from 'vuex';
 
-export default createStore({
+
+const store = createStore({
   state: {
-    primerNumero: 0,
-    segundoNumero: 0,
+    gameDataList: [], // Lista para almacenar los conjuntos de datos
   },
   mutations: {
-    guardarNumeros(state, { primerNumero, segundoNumero, nom }) {
-      state.primerNumero = primerNumero;
-      state.segundoNumero = segundoNumero;
-      state.nom = nom
+    guardarJuego(state, juego) {
+      state.gameDataList.push(juego); // Agrega el conjunto de datos a la lista
     },
   },
 });
+
+export default store;

@@ -6,17 +6,29 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/HomeComp.vue';
 import Menu from '../components/MenuComp.vue';
 import NG from '../views/NewGame.vue';
-import CC from '../components/CreateChar.vue';
-import SR from '../components/ShowRanking.vue';
-import SG from '../components/ShowGame.vue';
+import AG from '../views/AvailableGames.vue';
+
+import SG from '../views/InfoGame.vue';
+import CC from '../views/CreateCharacterView.vue';
+import SR from '../views/ShowRankingView.vue';
+import IC from '../views/PlayerInfoView.vue';
+import DC from '../views/DeleteCharView.vue';
+import PH from '../views/PlayerHistoryView.vue';
 
 const routes = [
     { path: '/', component: Home },
     { path: '/menu', component: Menu },
     { path: '/newgame', component: NG },
     { path: '/createchar', component: CC },
+    { path: '/showgame', component: SG },
+    { path: '/availablegames', component: AG },
+    
+    { path: '/createchar', component: CC },
     { path: '/showrank', component: SR },
     { path: '/showgame', component: SG },
+    { path: '/infochar', component: IC },
+    { path: '/delete', component: DC },
+    { path: '/phistory', component: PH },
 ];
 
 const customRouter = createRouter({

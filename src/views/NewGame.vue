@@ -36,7 +36,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import { useStore } from 'vuex';
+
 export default {
   data() {
     return {
@@ -63,12 +65,29 @@ export default {
   methods: {
     saveNumbers() {
       const store = useStore();
-      store.commit('guardarNumeros', { primerNumero: this.firstNumber, segundoNumero: this.secondNumber, nom: this.nom });
-      console.log('Números guardados en el store:', this.$store.state);
+      const parsedFirstNumber = parseInt(this.firstNumber);
+
+      if (!Number.isNaN(parsedFirstNumber) && parsedFirstNumber >= 2 && parsedFirstNumber <= 10) {
+        const juego = {
+          primerNumero: this.firstNumber,
+          segundoNumero: this.secondNumber,
+          nom: this.nom,
+        };
+
+        store.commit('guardarJuego', juego);
+        console.log('Números guardados en el store:', store.state);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'El número debe estar entre 2 y 10.',
+        });
+      }
     },
   },
 };
 </script>
+
 
 <style>
 .newgame {
@@ -78,7 +97,7 @@ export default {
   text-align: center;
   color: white;
   height: 100vh;
-  background-image: url('@/assets/images/fono2.jpg');
+  background-image: url('@/assets/images/fondoCG.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -97,6 +116,8 @@ export default {
 
 .left-section{
   width: 49%;
+  align-items: center;
+  background-color: black;
 }
 .right-section {
   width: 47%; /* Ajusta el ancho según sea necesario, considerando el espacio entre ellas */
@@ -104,8 +125,7 @@ export default {
 
 .input-container{
   align-items: center;
-  margin-left: 34%;
-  margin-top: 28%;
+
 }
 .cuadricula-container {
   align-items: center;

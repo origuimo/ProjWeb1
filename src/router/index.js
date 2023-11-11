@@ -1,4 +1,7 @@
 // router.js
+import { createApp } from 'vue';
+import App from '@/App.vue';
+import store from '@/store/store.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/HomeComp.vue';
 import Menu from '../components/MenuComp.vue';
@@ -16,9 +19,16 @@ const routes = [
     { path: '/showgame', component: SG },
 ];
 
-const router = createRouter({
+const customRouter = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-export default router;
+const app = createApp(App);
+
+app.use(store);
+app.use(customRouter);  // Usa el enrutador personalizado
+
+app.mount('#app');
+
+export default customRouter;

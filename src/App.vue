@@ -5,8 +5,12 @@
 </template>
 
 <script>
+import store from './store/store';
+
+
 export default {
   name: 'App',
+  store, // Hacer que el store esté disponible para todos los componentes
 };
 </script>
 

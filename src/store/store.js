@@ -1,14 +1,15 @@
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 
-const store = new Vuex.Store({
+export default createStore({
   state: {
-    storedValues: [], // Aquí se almacenarán los valores de los campos de entrada
+    primerNumero: 0,
+    segundoNumero: 0,
   },
   mutations: {
-    addStoredValue(state, payload) {
-      state.storedValues.push(payload);
+    guardarNumeros(state, { primerNumero, segundoNumero, nom }) {
+      state.primerNumero = primerNumero;
+      state.segundoNumero = segundoNumero;
+      state.nom = nom
     },
   },
 });
-
-export default store;

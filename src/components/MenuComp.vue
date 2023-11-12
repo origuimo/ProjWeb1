@@ -33,7 +33,7 @@ export default {
       this.$router.push('/showrank');
     },
     navigateToOption4() {
-      this.$router.push('/showgame');
+      this.$router.push('/menuStore');
     },
     navigateToOption5() {
       this.$router.push('/infochar');

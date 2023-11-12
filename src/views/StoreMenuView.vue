@@ -35,7 +35,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .menuStore {
   display: grid;
@@ -51,7 +50,7 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .store-title {
@@ -65,7 +64,7 @@ export default {
 }
 
 .side-menu {
-  width: 30%; 
+  width: 50%; 
   background-color: black;
   padding: 2vw; 
   box-sizing: border-box;
@@ -73,7 +72,6 @@ export default {
   flex-direction: column; 
   align-items: center;
   justify-content: center;
-  align-items: center;
   height: 100vh;
 }
 
@@ -94,12 +92,13 @@ export default {
   flex: 1;
   overflow: hidden;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
+  width: 50%; 
 }
 
 .content img {
   width: 100%;
-  flex-grow: 1; /* Hacer que la imagen ocupe todo el espacio disponible */
+  height: 100%;
   object-fit: cover;
 }
 </style>

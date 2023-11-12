@@ -122,7 +122,7 @@ h1 {
 
 
 .sell-button {
-  width: 40%; 
+  width: 20vh; 
     height: 8vh;  
     padding: 1vw; 
     font-size: 1em; 

@@ -107,7 +107,7 @@ input {
   line-height: 1.5;
 }
 .save-button {
-  width: 40%; 
+  width: 10vh; 
     height: 8vh;  
     padding: 1vw; 
     font-size: 1em; 

@@ -9,14 +9,14 @@
       </div>
       <div class="games-list">
         <div class="game" v-for="game in games" :key="game.id">
-          <div class="player-details">
+          <div class="game-details">
 
             <div class="game-info">
               <h3>{{ game.name }}</h3>
               <p>Size: {{ game.size }}</p>
               <p>Date: {{ game.creationDate }}</p>
               <p>Player: {{ game.player }}</p>
-              <button> Show more </button>
+              <button @click="goLog" class=" small-button"> LOG </button>
             </div>
           </div>
         </div>
@@ -28,8 +28,8 @@
   export default {
     data() {
       return {
-        title: 'Current Games',
-        players: [
+        title: 'Player History',
+        games: [
           {
             id: 1,
             name: 'Game 1',
@@ -54,16 +54,21 @@
         ],
       };
     },
+    methods: {
+    goLog() {
+      this.$router.push('/logview');
+    },
+    }
   };
   </script>
     
   <style>
-  .ranking {
+  .phistory {
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('@/assets/images/fono2.jpg');
+    background-image: url('@/assets/images/fondomed.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -73,27 +78,27 @@
   h1 {
     margin-bottom: 20px;
   }
-  
-  
+
   .game {
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #898585;
+    padding: 5px;
     width: 100%;
-
+    background-color: black;
+    margin-top: 15px;
   }  
   
   .game-info {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 100%; 
   }
   
   .game-details {
     display: flex;
     flex-direction: row;
-   
+    padding: 10px;
+    
   }
   
   </style>

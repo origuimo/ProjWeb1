@@ -3,8 +3,8 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import store from '@/store/store.js';
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../components/HomeComp.vue';
-import Menu from '../components/MenuComp.vue';
+import Home from '../views/HomeView.vue';
+import Menu from '../views/MenuView.vue';
 import NG from '../views/NewGame.vue';
 import AG from '../views/AvailableGames.vue';
 import IG from '../views/InfoGame.vue';
@@ -15,11 +15,17 @@ import SR from '../views/ShowRankingView.vue';
 import IC from '../views/PlayerInfoView.vue';
 import DC from '../views/DeleteCharView.vue';
 import PH from '../views/PlayerHistoryView.vue';
+import CreateAttackView from '../views/CreateAttackView.vue';
+import SellAttackView from '../views/SellAttackView.vue';
+import AvailableAttacksView from '@/views/AvailableAttacksView.vue';
+import AttackDetailView from '@/views/AttackDetailView.vue';
+import StoreMenuView from '../views/StoreMenuView.vue';
+import LogView from '../views/LogView.vue';
 
 const routes = [
-    { path: '/', component: Home },
-    { path: '/menu', component: Menu },
-    { path: '/newgame', component: NG },
+  { path: '/', component: Home },
+  { path: '/menu', component: Menu },
+  { path: '/newgame', component: NG },
     { path: '/createchar', component: CC },
     { path: '/availablegames', component: AG },
     { path: '/gameview', component: GV },
@@ -31,8 +37,15 @@ const routes = [
       props: true,
     },
     
-    { path: '/createchar', component: CC },
-    { path: '/showrank', component: SR },
+  { path: '/createchar', component: CC },
+  { path: '/showrank', component: SR },
+  { path: '/showgame', component: SG },
+  { path: '/logview', component: LogView },
+  { path: '/createattackview', component: CreateAttackView },
+  { path: '/sellattackview', component: SellAttackView },
+  { path: '/availableattacksview', component: AvailableAttacksView },
+  { path: '/attacks/:id', component: AttackDetailView},
+  { path: '/menuStore', component: StoreMenuView },
     { path: '/infochar', component: IC },
     { path: '/delete', component: DC },
     { path: '/phistory', component: PH },

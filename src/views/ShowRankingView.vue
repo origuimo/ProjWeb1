@@ -10,12 +10,11 @@
           <div class="player-details">
 
             <div class="player-info">
-            <img :src="player.image">
               <h3>{{ player.name }}</h3>
               <p>Level: {{ player.level }}</p>
               <p>Experience: {{ player.experience }}</p>
               <p>Coins: {{ player.coins }}</p>
-              <button> Show more </button>
+              <button class="small-button" @click="showmore"> Show more </button>
             </div>
           </div>
         </div>
@@ -32,7 +31,6 @@
           {
             id: 1,
             name: 'Player 1',
-            image: '@/assets/images/vikingo.png',
             level: 10,
             experience: 500,
             coins: 100
@@ -40,7 +38,6 @@
           {
             id: 2,
             name: 'Player 2',
-            image: '@/assets/images/orco.png',
             level: 3,
             experience: 50,
             coins: 76
@@ -48,14 +45,17 @@
           {
             id: 3,
             name: 'Player 3',
-            image: '@/assets/images/dracula.png',
             level: 5,
             experience: 230,
             coins: 256
           },
         ],
       };
-    },
+    }, methods:{
+     showmore() {
+      this.$router.push('/phistory');
+     }
+  },
   };
   </script>
     
@@ -65,7 +65,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('@/assets/images/fono2.jpg');
+    background-image: url('@/assets/images/fondomed.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -86,12 +86,19 @@
     width: 20px;
     margin-right: 10px;
   }
+  .small-button {
+    width: 100px; 
+    height: 35px;
+    font-size: 12px; 
+    background-image: url('@/assets/images/button.jpg');
+  }
   
   .player {
     display: flex;
     align-items: center;
     padding: 10px;
     width: 100%;
+    
 
   }  
   
@@ -99,14 +106,19 @@
     display: flex;
     align-items: center;
     width: 100%;
+   
 
   }
   
   .player-details {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    padding: 2vw;
+    align-items: center;
+    background-color: black;
+    width: 400px;
   }
+  
 
   
   </style>

@@ -61,7 +61,7 @@ export default {
   align-items: center;
   justify-content: top;
   background-image: url('@/assets/images/fondomed.jpg');
-  background-size: 100%;
+  background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
   margin: 0;
@@ -93,11 +93,13 @@ export default {
 }
 
 .charsize {
-  width: 70px;
+  width: 10%; 
+  max-width: 70px; 
   height: auto;
 }
 .charfinalsize {
-  width: 350px;
+  width: 50%; 
+  max-width: 350px; 
   height: auto;
 }
 .charfinal {

@@ -26,7 +26,7 @@
   </script>
   
   <style>
-  .container {
+.container {
     display: flex;
     text-align: center;
     color: white;
@@ -36,12 +36,12 @@
     align-items: center;
     justify-content: center;
     background-image: url('@/assets/images/portada2.jpg');
-    background-size: 100%;
+    background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-  }
+}
   
   body, html {
     margin: 0;

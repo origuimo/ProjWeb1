@@ -108,7 +108,7 @@
   .search-bar {
     display: flex;
     align-items: center;
-    margin-top: 5%;
+
   }
   
   .search-icon {

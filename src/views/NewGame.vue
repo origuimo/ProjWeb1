@@ -91,13 +91,11 @@ export default {
           text: 'El número debe estar entre 2 y 10.',
         });
       }
-      /*Swal.fire({
+      Swal.fire({
           icon: 'success',
           title: 'Success',
           text: 'You have enter the game as Player1 Good luck!',
-        }).then(() => {
-          this.$router.push('/gameview');
-        });*/
+        });
     },
   },
 };

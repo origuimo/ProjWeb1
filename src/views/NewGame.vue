@@ -6,6 +6,7 @@
     <div class="main-section">
       <div class="left-section">
         <div class="input-container">
+          <div class="spacers"></div>
           <div class="input-section">
             <div class="section1">
               <div class="text">Files i columnes:&nbsp;&nbsp;</div>
@@ -26,14 +27,21 @@
           </div>
         </div>
       </div>
-      <div class="cuadricula-container">
-        <div class="grid-container" :style="{ gridTemplateColumns: `repeat(${parseInt(firstNumber)}, 1fr)`, gridGap: dynamicGridGap, width: gridWidth + 'px' }">
-          <div v-for="n in parseInt(firstNumber) * parseInt(firstNumber)" :key="n" class="grid-square"></div>
+
+      <div class="right-section">
+        <div class="cuadricula-container">
+          <div
+            class="grid-container"
+            :style="{ gridTemplateColumns: `repeat(${parseInt(firstNumber)}, 1fr)`, gridGap: dynamicGridGap, width: gridWidth + 'px' }"
+          >
+            <div v-for="n in parseInt(firstNumber) * parseInt(firstNumber)" :key="n" class="grid-square"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -76,6 +84,13 @@ export default {
 
         store.commit('guardarJuego', juego);
         console.log('Números guardados en el store:', store.state);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'You have enter the game as Player1 Good luck!',
+        }).then(() => {
+          window.location.href = '/gameview';
+        });
       } else {
         Swal.fire({
           icon: 'error',
@@ -88,11 +103,10 @@ export default {
 };
 </script>
 
-
 <style>
 .newgame {
   display: flex;
-  flex-direction: column; /* Cambiado a columna */
+  flex-direction: column;
   align-items: center;
   text-align: center;
   color: white;
@@ -110,34 +124,50 @@ export default {
 
 .main-section {
   display: flex;
-  justify-content: space-between; /* Alineación entre las secciones */
-  width: 100%;
+  flex: 1; /* Toma todo el espacio disponible en el eje vertical */
 }
 
-.left-section{
-  width: 49%;
-  align-items: center;
-  background-color: black;
+.spacers {
+  height: 30px; /* Ajusta según sea necesario */
 }
+
+.left-section {
+  flex: 1;
+}
+
 .right-section {
-  width: 47%; /* Ajusta el ancho según sea necesario, considerando el espacio entre ellas */
-}
-
-.input-container{
+  flex: 1;
+  display: flex;
   align-items: center;
-
+  justify-content: center;
 }
+
 .cuadricula-container {
-  align-items: center;
-  width: 47%; /* Ajustado al mismo ancho que left-section */
-  margin-left: 20%;
-  margin-top: 10%;
-}
-
-.grid-title {
   text-align: center;
 }
 
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-container {
+  min-height: 70%;
+  background-color: black;
+  position: relative;
+  margin-top: 10%;
+  overflow: hidden;
+}
+
+.input-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%; /* Ajusta según sea necesario */
+}
 
 h1 {
   font-size: 3.5em;
@@ -148,18 +178,6 @@ h1 {
   background-clip: text;
   color: transparent;
 }
-
-
-.input-section,
-.grid-section {
-  text-align: center;
-}
-
-.grid-container {
-  display: grid;
-  grid-gap: 5px;
-}
-
 
 .grid-square {
   width: 50px;
@@ -179,6 +197,7 @@ h1 {
   align-items: center;
   margin-top: 5%;
 }
+
 .section3 {
   display: flex;
   align-items: center;
@@ -198,12 +217,7 @@ input {
 }
 
 .spacer {
-  height: 20px; /* Ajusta según sea necesario */
-}
-
-.button-section {
-  display: flex;
-  justify-content: center;
+  height: 10px; /* Ajusta según sea necesario */
 }
 
 button {
@@ -214,5 +228,37 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+h1 {
+  font-size: 3.5vw; /* Utiliza vw para que el tamaño sea relativo al ancho de la ventana */
+  margin: 2vw; /* Ajusta según sea necesario */
+}
+
+.grid-square {
+  width: 5vw;
+  height: 5vw;
+}
+
+/* Diseño responsivo */
+@media screen and (max-width: 768px) {
+  .newgame {
+    padding: 10px;
+  }
+
+  .left-section, .right-section {
+    flex: 0;
+  }
+  .input-section {
+    width: 90%; /* Reducir el tamaño para pantallas pequeñas */
+  }
+}
+
+/* Otros ajustes */
+.text {
+  font-size: 1em; /* Ajusta según sea necesario */
+}
+
+.input-section {
+  margin-left: 5%;
 }
 </style>

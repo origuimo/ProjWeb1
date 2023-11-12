@@ -22,13 +22,14 @@
         </div>
         <div class="cuadricula-container">
           <div class="grid-container" :style="{ gridTemplateColumns: `repeat(${parseInt(primerNumero)}, 1fr)`, gridGap: dynamicGridGap, width: gridWidth + 'px' }">
-            <div v-for="n in parseInt(primerNumero) * parseInt(primerNumero)" :key="n" class="grid-square"></div>
+            <div v-for="n in Number(primerNumero) * Number(primerNumero)" :key="n" class="grid-square"></div>
+
           </div>
         </div>
       </div>
       <div class="button-section">
-            <button @click="saveNumbers">Join</button>
-        </div>
+            <button @click="navigateToOption1">Join</button>
+      </div>
     </div>
   </template>
   
@@ -39,9 +40,17 @@
     data() {
       return {
         title: 'Info Game',
+        primerNumero: 4,
+        segundoNumero: 14,
+        nom: 'Partida',
       };
     },
+    props: ['playerData'],
+  mounted() {
+    console.log('Props en InfoGame:', this.primerNumero, this.segundoNumero, this.nom);
+  },
     computed: {
+
       ...mapState(['primerNumero', 'segundoNumero', 'nom']),
       dynamicGridGap() {
         const baseGap = 5;
@@ -56,6 +65,11 @@
         return columns * baseSquareSize + (columns - 1) * gap;
       },
     },
+    methods: {
+    navigateToOption1() {
+      this.$router.push('/gameview');
+    },
+  },
   };
   </script>
   
@@ -136,9 +150,9 @@
   }
 
   .button-section {
-  display: flex;
+  display: grid;
   justify-content: center;
-  margin-top: 6%;
+  margin-bottom: 5%;
 }
 
 button {

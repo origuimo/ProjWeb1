@@ -1,27 +1,29 @@
 <template>
-    <div class="ranking">
+  <div class="ranking">
+    <div class="title-section">
       <h1>{{ title }}</h1>
-      <div class="search-bar">
-        <img src="@/assets/images/lupa.png" class="search-icon" alt="Search Icon">
-        <input type="text" placeholder="Search player...">
-      </div>
-      <div class="player-list">
-        <div class="player-container">
-          <div class="player" v-for="player in gameDataList" :key="player.id">
-            <div class="player-details">
-              <div class="player-info">
-                <img :src="player.image">
-                <div class="player-text">
-                  <h3>{{ player.nom }}</h3>
-                </div>
-                <button>Show more</button>
+    </div>
+    <div class="search-bar">
+      <img src="@/assets/images/lupa.png" class="search-icon" alt="Search Icon">
+      <input type="text" placeholder="Search game...">
+    </div>
+    <div class="player-list">
+      <div class="player-container">
+        <div class="player" v-for="player in gameDataList" :key="player.id">
+          <div class="player-details">
+            <div class="player-info">
+              <img :src="player.image">
+              <div class="player-text">
+                <h3>{{ player.nom }}</h3>
               </div>
+              <button @click="navigateToOption1(player)">Show more</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { mapState } from 'vuex';
@@ -29,9 +31,24 @@
   export default {
     data() {
       return {
-        title: 'Show Ranking',
+        title: 'Available Games',
       };
     },
+    methods: {
+      navigateToOption1(player) {
+        console.log('Datos del jugador:', typeof player.primerNumero);
+        console.log('Datos del jugador:', typeof player);
+        console.log('Datos del jugador:', player.primerNumero);
+        this.$router.push({ 
+          name: 'infoGame',
+          props: { 
+            playerData: player 
+          }
+        });
+      },
+    },
+
+
     computed: {
       ...mapState(['gameDataList']),
     },
@@ -82,10 +99,14 @@
   border-radius: 5px; /* Bordes redondeados para el rectángulo */
 }
 
+.title-section {
+  margin-top: 2%;
+}
+
   .search-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-top: 5%;
   }
   
   .search-icon {

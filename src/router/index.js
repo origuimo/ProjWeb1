@@ -7,8 +7,9 @@ import Home from '../components/HomeComp.vue';
 import Menu from '../components/MenuComp.vue';
 import NG from '../views/NewGame.vue';
 import AG from '../views/AvailableGames.vue';
+import IG from '../views/InfoGame.vue';
+import GV from '../views/GameView.vue';
 
-import SG from '../views/InfoGame.vue';
 import CC from '../views/CreateCharacterView.vue';
 import SR from '../views/ShowRankingView.vue';
 import IC from '../views/PlayerInfoView.vue';
@@ -20,12 +21,18 @@ const routes = [
     { path: '/menu', component: Menu },
     { path: '/newgame', component: NG },
     { path: '/createchar', component: CC },
-    { path: '/showgame', component: SG },
     { path: '/availablegames', component: AG },
+    { path: '/gameview', component: GV },
+
+    {
+      path: '/infoGame',
+      name: 'infoGame',
+      component: IG,
+      props: true,
+    },
     
     { path: '/createchar', component: CC },
     { path: '/showrank', component: SR },
-    { path: '/showgame', component: SG },
     { path: '/infochar', component: IC },
     { path: '/delete', component: DC },
     { path: '/phistory', component: PH },

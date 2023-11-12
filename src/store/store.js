@@ -7,7 +7,8 @@ const store = createStore({
   },
   mutations: {
     guardarJuego(state, juego) {
-      state.gameDataList.push(juego); // Agrega el conjunto de datos a la lista
+      juego.primerNumero = parseInt(juego.primerNumero);
+      state.gameDataList.push(juego);
     },
   },
 });

@@ -112,6 +112,7 @@ export default {
   border: none;
   border-radius: 0.5vw;
   cursor: pointer;
+  background-image: url('@/assets/images/button.jpg');
   width: 100%;
   width: auto;
   margin-top: 1vw;

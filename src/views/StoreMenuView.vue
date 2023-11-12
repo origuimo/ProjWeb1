@@ -84,6 +84,7 @@ export default {
   font-size: 3vw; 
   cursor: pointer;
   white-space: normal; 
+  background-image: url('@/assets/images/button.jpg');
   display: flex;
   justify-content: center;
   align-items: center;

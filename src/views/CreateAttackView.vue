@@ -100,6 +100,7 @@ input {
   color: white;
   border: none;
   border-radius: 0.5vw;
+  background-image: url('@/assets/images/button.jpg');
   cursor: pointer;
   width: 60%; 
   text-align: center; 

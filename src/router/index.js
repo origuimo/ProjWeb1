@@ -19,6 +19,7 @@ import SellAttackView from '../views/SellAttackView.vue';
 import AvailableAttacksView from '@/views/AvailableAttacksView.vue';
 import AttackDetailView from '@/views/AttackDetailView.vue';
 import StoreMenuView from '../views/StoreMenuView.vue';
+import LogView from '../views/LogView.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -31,6 +32,7 @@ const routes = [
   { path: '/createchar', component: CC },
   { path: '/showrank', component: SR },
   { path: '/showgame', component: SG },
+  { path: '/logview', component: LogView },
   { path: '/createattackview', component: CreateAttackView },
   { path: '/sellattackview', component: SellAttackView },
   { path: '/availableattacksview', component: AvailableAttacksView },

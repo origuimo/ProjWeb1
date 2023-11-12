@@ -122,17 +122,20 @@ h1 {
 
 
 .sell-button {
-  padding: 2vw 4vw;
-  font-size: 1.5vw;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 0.5vw;
-  cursor: pointer;
-  background-image: url('@/assets/images/button.jpg');
-  width: 100%;
-  width: auto; 
-  margin-top: 1vw;
+  width: 40%; 
+    height: 8vh;  
+    padding: 1vw; 
+    font-size: 1em; 
+    font-weight: bold;
+    position: relative;
+    background-image: url('@/assets/images/button.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5%;
 }
 </style>
 <style>

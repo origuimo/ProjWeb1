@@ -2,8 +2,8 @@
     <div class="delete">
       <h2>Are you sure you want to delete all the information related to this player?</h2>
       <div class="options2">
-        <button @click="navigateToOption1">Yes</button>
-        <button @click="navigateToOption2">No</button>
+        <button class=" button3" @click="navigateToOption1">Yes</button>
+        <button   class=" button3" @click="navigateToOption2">No</button>
       </div>
     </div>
   </template>
@@ -35,7 +35,7 @@
     justify-content: center;
     text-align: center;
     color: white;
-    background-image: url('@/assets/images/fono2.jpg');
+    background-image: url('@/assets/images/forest.jpg');
     background-size: cover;
     background-position: center;
   }
@@ -46,21 +46,7 @@
     flex-direction: row;
   }
   
-  .buttondel {
-    width: 150px;  
-    height: 80px;
-    padding: 20px;
-    font-size: 1.5em;
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/pacman5.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 10px;
-  }
+ 
+
   </style>
   

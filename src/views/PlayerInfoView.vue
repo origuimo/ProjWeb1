@@ -19,7 +19,8 @@
             <img src="@/assets/images/fuego.png" class="charsize" />
             <img src="@/assets/images/fumar.png" class="charsize" />
             <img src="@/assets/images/productos-quimicos.png" class="charsize" />
-            <button @click="deleteChar">Delete</button>
+            <button class= button3 @click="deleteChar">DELETE</button>
+            <button class= button3 @click="stats">STATISTICS</button>
           </div>
         
         </section>
@@ -47,6 +48,9 @@
       deleteChar() {
         this.$router.push('/delete');
       },
+      stats(){
+        this.$router.push('/phistory');
+      }
     },
   };
   </script>
@@ -55,13 +59,13 @@
   .playerinfo {
     position: relative;
     text-align: center;
-    color: white;
+    color:white;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-image: url('@/assets/images/fono2.jpg');
+    justify-content: top;
+    background-image: url('@/assets/images/fondomed.jpg');
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -80,6 +84,10 @@
   #infochar {
     text-align: left;
   }
+  #infochar span {
+  color:black; 
+  font-weight: bold;
+}
   
   .info span {
     display: block;

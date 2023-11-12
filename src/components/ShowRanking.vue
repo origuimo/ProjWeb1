@@ -25,7 +25,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('@/assets/images/fono2.jpg');
+  background-image: url('@/assets/images/fondomed.jpg');
   background-size: 100%; /* Ajusta este valor según tus necesidades */
   background-position: center;
   background-repeat: no-repeat;

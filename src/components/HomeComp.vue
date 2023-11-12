@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     navigateToOtherPage() {
-      this.$router.push('/createchar'); // Navegar a la página 'OtherPage'
+      this.$router.push('/createchar'); 
     },
   },
 };

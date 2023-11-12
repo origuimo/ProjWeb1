@@ -19,9 +19,11 @@
             <img src="@/assets/images/fuego.png" class="charsize" />
             <img src="@/assets/images/fumar.png" class="charsize" />
             <img src="@/assets/images/productos-quimicos.png" class="charsize" />
+          </div>
+          <div class="buttonsline">
             <button class= button3 @click="deleteChar">DELETE</button>
             <button class= button3 @click="stats">STATISTICS</button>
-          </div>
+          </div>"
         
         </section>
   
@@ -66,7 +68,7 @@
     align-items: center;
     justify-content: top;
     background-image: url('@/assets/images/fondomed.jpg');
-    background-size: 100%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     margin: 0;
@@ -95,15 +97,28 @@
     font-weight: bold;
     margin-bottom: 10px;
   }
-  
+
   .charsize {
-    width: 70px;
-    height: auto;
-  }
-  .charfinalsize2 {
-    width: 300px;
-    height: auto;
-  }
+  width: 10%; 
+  max-width: 70px; 
+  height: auto;
+}
+
+.charfinalsize {
+  width: 50%; 
+  max-width: 350px; 
+  height: auto;
+}
+.charfinalsize2 {
+  width: 40%; 
+  max-width: 150px; 
+  height: auto;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
   .charfinal {
     text-align: right;
   }

@@ -9,6 +9,7 @@ import NG from '../views/NewGame.vue';
 import AG from '../views/AvailableGames.vue';
 import IG from '../views/InfoGame.vue';
 import GV from '../views/GameView.vue';
+import SG from '../views/AvailableGames.vue';
 
 import CC from '../views/CreateCharacterView.vue';
 import SR from '../views/ShowRankingView.vue';

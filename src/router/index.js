@@ -3,8 +3,8 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import store from '@/store/store.js';
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../components/HomeComp.vue';
-import Menu from '../components/MenuComp.vue';
+import Home from '../views/HomeView.vue';
+import Menu from '../views/MenuView.vue';
 import NG from '../views/NewGame.vue';
 import AG from '../views/AvailableGames.vue';
 

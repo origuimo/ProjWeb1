@@ -87,7 +87,7 @@
     font-size: 1.5em;
     font-weight: bold;
     position: relative;
-    background-image: url('@/assets/images/pacman5.jpg');
+    background-image: url('@/assets/images/button.jpg');
     background-size: cover;
     background-position: center;
     color: white; 

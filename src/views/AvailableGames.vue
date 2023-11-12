@@ -15,6 +15,7 @@
               <img :src="player.image">
               <div class="player-text">
                 <h3>{{ player.nom }}</h3>
+                <h3>{{ nom }}</h3>
               </div>
               <button @click="navigateToOption1(player)">Show more</button>
             </div>
@@ -32,6 +33,7 @@
     data() {
       return {
         title: 'Available Games',
+        nom: 'Partida 1',
       };
     },
     methods: {

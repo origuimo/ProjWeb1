@@ -22,7 +22,7 @@
             </div>
             <div class="spacer"></div>
             <div class="button-section">
-              <button @click="saveNumbers">Save Numbers</button>
+              <button class="buttonjoin1" @click="saveNumbers">Save Numbers</button>
             </div>
           </div>
         </div>
@@ -84,13 +84,6 @@ export default {
 
         store.commit('guardarJuego', juego);
         console.log('Números guardados en el store:', store.state);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'You have enter the game as Player1 Good luck!',
-        }).then(() => {
-          window.location.href = '/gameview';
-        });
       } else {
         Swal.fire({
           icon: 'error',
@@ -98,6 +91,13 @@ export default {
           text: 'El número debe estar entre 2 y 10.',
         });
       }
+      /*Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'You have enter the game as Player1 Good luck!',
+        }).then(() => {
+          this.$router.push('/gameview');
+        });*/
     },
   },
 };
@@ -220,14 +220,23 @@ input {
   height: 10px; /* Ajusta según sea necesario */
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.buttonjoin1 {
+  width: 40%; 
+    height: 8vh;  
+    width: 15vh;
+    padding: 10px; 
+    font-size: 1.2em; 
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    background-image: url('@/assets/images/button.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5%;
 }
 h1 {
   font-size: 3.5vw; /* Utiliza vw para que el tamaño sea relativo al ancho de la ventana */

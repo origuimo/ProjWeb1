@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="button-section">
-            <button @click="navigateToOption1">Join</button>
+            <button class="buttonjoin" @click="navigateToOption1">Join</button>
       </div>
     </div>
   </template>
@@ -81,7 +81,7 @@
     text-align: center;
     color: white;
     height: 100vh;
-    background-image: url('@/assets/images/fono2.jpg');
+    background-image: url('@/assets/images/blood.jfif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -155,15 +155,23 @@
   margin-bottom: 5%;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-image: url('@/assets/images/button.jpg');
+.buttonjoin {
+  width: 40%; 
+    height: 8vh;  
+    width: 10vh;
+    padding: 10px; 
+    font-size: 1.2em; 
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    background-image: url('@/assets/images/button.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5%;
 }
   </style>
   

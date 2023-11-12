@@ -4,7 +4,7 @@
       <div class="logContainer">
         <div v-for="(entry, index) in logEntries" :key="index" class="logText">{{ entry }}</div>
       </div>
-      <button class="backButton">Back</button>
+      <button @click="goBack" class="backButton">Back</button>
     </div>
   </template>
   
@@ -25,6 +25,11 @@
           'Player1 dies, Player2 wins this combat!'
         ]
       };
+    },
+    methods: {
+    goBack() {
+      this.$router.push('/phistory');
+    },
     }
   };
   </script>

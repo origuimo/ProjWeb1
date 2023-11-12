@@ -1,19 +1,12 @@
 <template>
   <div class="attackdetailview">
     <h1 class="attack-title">{{ attack.name }} Details</h1>
-    <div class="main-container">
-      <div class="info-container">
-        <div class="info">
-          <p>Attack ID: {{ attack.id }}</p>
-          <p>Positions: {{ attack.positions }}</p>
-          <p>Power: {{ attack.power }}</p>
-          <p>Price: {{ attack.price }}</p>
-          <p>Level: {{ attack.level }}</p>
-        </div>
-      </div>
-      <div class="image-container">
-        <img src="/src/assets/images/spell.jpg" alt="Imagen del ataque" />
-      </div>
+    <div class="info">
+        <p class="info-text">Attack ID: {{ attack.id }}</p>
+        <p class="info-text">Positions: {{ attack.positions }}</p>
+        <p class="info-text">Power: {{ attack.power }}</p>
+        <p class="info-text">Price: {{ attack.price }}</p>
+        <p class="info-text">Level: {{ attack.level }}</p>
     </div>
     <button @click="buyAttack" class="buy-button">Buy Attack</button>
   </div>
@@ -33,7 +26,7 @@ export default {
   },
   methods: {
     getElementDetailsById(id) {
-      //llamamos a la API para que nos devuelva la info de este ataque y manejamos la array para quedarnos solo con el que nos interesa
+      // Llamamos a la API para que nos devuelva la info de este ataque y manejamos la array para quedarnos solo con el que nos interesa
       return {
         id: id,
         name: 'Demon incantation',
@@ -57,7 +50,6 @@ export default {
   text-align: center;
   color: white;
   height: 100vh;
-  overflow: hidden;
   background-image: url('@/assets/images/escritorio.jfif');
   background-size: cover;
   background-position: center;
@@ -75,34 +67,25 @@ export default {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.main-container {
-  display: flex;
-  width: 70%;
-  height: 40vh;
-  margin: 2vw auto;
-  font-size: 2vw;
-}
-
-.info-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background-color: black;
-  padding: 2vw;
-  box-sizing: border-box;
+  text-align: center;
 }
 
 .info {
-  text-align: left;
-  margin: 1vw 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
   padding: 1vw;
-  border-radius: 0.5vw;
-  font-size: 1.5vw;
+  width: 60vw;
+  height: 40vh;
+  margin: 2vw auto;
+  box-sizing: border-box;
+  font-size: 1vw;
+  overflow: auto;
 }
+
+
 
 .buy-button {
   padding: 2vw 4vw;
@@ -116,18 +99,5 @@ export default {
   width: 100%;
   width: auto;
   margin-top: 1vw;
-}
-
-.image-container {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 </style>

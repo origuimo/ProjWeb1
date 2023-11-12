@@ -16,7 +16,7 @@
               <p>Size: {{ game.size }}</p>
               <p>Date: {{ game.creationDate }}</p>
               <p>Player: {{ game.player }}</p>
-              <button class=" small-button"> JOIN </button>
+              <button class=" small-button"> LOG </button>
             </div>
           </div>
         </div>

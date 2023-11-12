@@ -80,9 +80,11 @@
   }
   
   button {
-    width: 350px;
-    height: 80px;
-    padding: 50px;
+    width: 40%; /* Usando porcentajes en lugar de tamaño fijo */
+    height: 8vh; /* Utilizando viewport height */
+    padding: 10px; /* Reducción del padding para adaptarse mejor */
+    font-size: 1.2em; /* Ajuste en tamaño de fuente */
+    margin: 2%;
     font-size: 1.5em;
     font-weight: bold;
     position: relative;

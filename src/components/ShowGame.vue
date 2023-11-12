@@ -17,7 +17,7 @@ export default {
 
 <style>
 .showgame {
-  position: relative; /* Añade la posición relativa para ajustar el texto en la parte inferior */
+  position: relative; 
   text-align: center;
   color: white;
   height: 100vh;
@@ -26,7 +26,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-image: url('@/assets/images/fono2.jpg');
-  background-size: 100%; /* Ajusta este valor según tus necesidades */
+  background-size: 100%; 
   background-position: center;
   background-repeat: no-repeat;
   margin: 0;

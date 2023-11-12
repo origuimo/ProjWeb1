@@ -1,11 +1,16 @@
 <template>
   <div class="menu-container">
+    <div class="titol">
     <h1>{{ title }}</h1>
+  </div>
     <div class="options">
-      <button @click="navigateToOption1">Create Character</button>
-      <button @click="navigateToOption2">Create Game</button>
-      <button @click="navigateToOption3">Show Ranking</button>
-      <button @click="navigateToOption4">Show Game</button>
+      <button @click="navigateToOption1">Create Game</button>
+      <button @click="navigateToOption2">Show Games</button>
+    </div>
+    <div class="options1">
+      <button @click="navigateToOption3">Player Ranking</button>
+      <button @click="navigateToOption4">Store</button>
+      <button @click="navigateToOption5">View Porfile</button>
     </div>
   </div>
 </template>
@@ -19,16 +24,19 @@ export default {
   },
   methods: {
     navigateToOption1() {
-      this.$router.push('/createchar');
+      this.$router.push('/newgame');
     },
     navigateToOption2() {
-      this.$router.push('/newgame');
+      this.$router.push('/availablegames');
     },
     navigateToOption3() {
       this.$router.push('/showrank');
     },
     navigateToOption4() {
       this.$router.push('/showgame');
+    },
+    navigateToOption5() {
+      this.$router.push('/infochar');
     },
   },
 };
@@ -47,6 +55,9 @@ export default {
   background-size: cover;
   background-position: center;
 }
+.titol{
+  align-items: center;
+}
 
 h1 {
   font-size: 2.5em;
@@ -56,15 +67,22 @@ h1 {
 
 .options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5%; /* Ajusta este valor para reducir el espacio entre el título y los botones */
+}
+
+.options1{
+  display: flex;
+  flex-direction: row;
   align-items: center;
   margin-top: 5%; /* Ajusta este valor para reducir el espacio entre el título y los botones */
 }
 
 button {
-  width: 350px; /* Ajusta el ancho según tus preferencias */
+  width: 350px;
   height: 80px;
-  padding: 20px;
+  padding: 50px;
   font-size: 1.5em;
   font-weight: bold;
   position: relative;
@@ -75,8 +93,10 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 10% 0;
+  margin: 5%;
 }
+
+
 
 
 </style>

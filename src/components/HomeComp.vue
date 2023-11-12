@@ -1,7 +1,9 @@
 <template>
   <div class="container" @click="navigateToOtherPage">
-    <h1>{{ title }}</h1>
-    <p class="subtitle">{{ subtitle }}</p>
+    <div class="titol1">
+      <h1>{{ title }}</h1>
+      <h2>{{ subtitle }}</h2>
+    </div>
     <p class="fight">{{ fight }}</p>
   </div>
 </template>
@@ -17,7 +19,7 @@ export default {
   },
   methods: {
     navigateToOtherPage() {
-      this.$router.push('/menu'); // Navegar a la página 'OtherPage'
+      this.$router.push('/createchar'); 
     },
   },
 };
@@ -25,7 +27,7 @@ export default {
 
 <style>
 .container {
-  position: relative; /* Añade la posición relativa para ajustar el texto en la parte inferior */
+  display: flex;
   text-align: center;
   color: white;
   height: 100vh;
@@ -46,6 +48,9 @@ body, html {
   padding: 0;
 }
 
+.titol1{
+  margin-bottom: 27%;
+}
 h1 {
   font-size: 4em;
   margin: 0;
@@ -54,6 +59,11 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+h2{
+  font-size: 1em;
+  margin: 0;
+  font-family: 'Press Start 2P', cursive; /* Asegúrate de haber importado la fuente en tu proyecto */
 }
 
 .subtitle {

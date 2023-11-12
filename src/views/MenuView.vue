@@ -51,7 +51,7 @@
     justify-content: center;
     text-align: center;
     color: white;
-    background-image: url('@/assets/images/fono2.jpg'); 
+    background-image: url('@/assets/images/portada2.jpg'); 
     background-size: cover;
     background-position: center;
   }

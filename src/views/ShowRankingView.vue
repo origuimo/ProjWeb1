@@ -113,8 +113,10 @@
   .player-details {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    padding: 2vw;
+    align-items: center;
     background-color: black;
+    width: 400px;
   }
   
 

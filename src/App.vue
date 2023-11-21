@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+
     <router-view /> <!-- Esto mostrará el componente correspondiente según la ruta actual -->
-  </div>
+
 </template>
 
 <script>

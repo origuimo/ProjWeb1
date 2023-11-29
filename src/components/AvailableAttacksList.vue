@@ -34,7 +34,7 @@ export default {
   overflow-y: auto;
   margin-bottom: 1vw;
 }
-
+ 
 .element-item {
   background-color: black;
   color: white;

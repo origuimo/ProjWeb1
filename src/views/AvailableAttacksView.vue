@@ -25,6 +25,14 @@
 <script>
 import AvailableAttacksList from '@/components/AvailableAttacksList.vue';
 
+const url = 'https://balandrau.salle.url.edu/i3/shop/attacks'; // Fix the URL
+const options = {
+  method: 'GET',
+  //headers: {
+    //'Content-Type': 'application/json', // Fix the content type
+  //},
+};
+
 export default {
   components: {
     AvailableAttacksList,
@@ -32,20 +40,7 @@ export default {
   data() {
     return {
       title: 'Available Attacks',
-      elementArray: [
-      { id: 1, name: 'Attack 1', power: 1, price: 10, level: 1 },
-        { id: 2, name: 'Atack 2', power: 2, price: 20, level: 2 },
-        { id: 3, name: 'Atack 3', power: 3, price: 30, level: 3 },
-        { id: 4, name: 'Atack 4', power: 4, price: 40, level: 4 },
-        { id: 5, name: 'Atack 5', power: 5, price: 50, level: 5 },
-        { id: 6, name: 'Atack 6', power: 6, price: 60, level: 6 },
-        { id: 7, name: 'Atack 7', power: 7, price: 70, level: 7 },
-        { id: 8, name: 'Atack 8', power: 8, price: 80, level: 8 },
-        { id: 9, name: 'Atack 9', power: 9, price: 90, level: 9 },
-        { id: 10, name: 'Atack 10', power: 10, price: 100, level: 10 },
-        { id: 11, name: 'Atack 11', power: 11, price: 110, level: 11 },
-        { id: 12, name: 'Atack 12', power: 12, price: 120, level: 12 },
-      ],
+      elementArray: [],
       selectedElement: null,
       filterBy: 'id',
       sortBy: 'asc',
@@ -63,6 +58,32 @@ export default {
     onElementSelected(element) {
       this.selectedElement = element;
     },
+    fetchData() {
+      fetch(url, options)
+        .then(res => res.json())
+        .then(data => {
+          // Check if the response is an array with the specified fields
+          if (Array.isArray(data) && data.length > 0 && Object.keys(data[0]).sort().toString() === ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"].sort().toString()) {
+            // Convert the response to the desired array format
+            this.elementArray = data.map(item => ({
+              id: item.attack_ID,
+              name: item.positions,
+              power: item.power,
+              price: item.price,
+              level: item.level_needed,
+              onSale: item.on_sale,
+            }));
+          } else {
+            console.error('Invalid data format received from the API');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
+  },
+  created() {
+    this.fetchData(); // Fetch data when the component is created
   },
 };
 </script>

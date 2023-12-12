@@ -28,9 +28,9 @@ import AvailableAttacksList from '@/components/AvailableAttacksList.vue';
 const url = 'https://balandrau.salle.url.edu/i3/shop/attacks'; // Fix the URL
 const options = {
   method: 'GET',
-  headers: {
-    'Content-Type': 'application/json', // Fix the content type
-  },
+  //headers: {
+    //'Content-Type': 'application/json', // Fix the content type
+  //},
 };
 
 export default {
@@ -62,15 +62,28 @@ export default {
       fetch(url, options)
         .then(res => res.json())
         .then(data => {
-          this.elementArray = data; // Update the data property
+          // Check if the response is an array with the specified fields
+          if (Array.isArray(data) && data.length > 0 && Object.keys(data[0]).sort().toString() === ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"].sort().toString()) {
+            // Convert the response to the desired array format
+            this.elementArray = data.map(item => ({
+              id: item.attack_ID,
+              name: item.positions,
+              power: item.power,
+              price: item.price,
+              level: item.level_needed,
+              onSale: item.on_sale,
+            }));
+          } else {
+            console.error('Invalid data format received from the API');
+          }
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         });
     },
-    created() {
-    this.fetchData(); // Fetch data when the component is created
   },
+  created() {
+    this.fetchData(); // Fetch data when the component is created
   },
 };
 </script>

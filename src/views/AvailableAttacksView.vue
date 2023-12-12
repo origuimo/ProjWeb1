@@ -25,15 +25,6 @@
 <script>
 import AvailableAttacksList from '@/components/AvailableAttacksList.vue';
 
-const url = 'https://balandrau.salle.url.edu/i3/shop/attacks'; 
-const options = {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Bearer' : 'valortoke', //pillar el token 
-  },
-};
-
 export default {
   components: {
     AvailableAttacksList,
@@ -60,8 +51,14 @@ export default {
       this.selectedElement = element;
     },
     fetchData() {
-      fetch(url, options)
-        .then(res => res.json())
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : 'valortoke', //pillar el token 
+        },
+      })
+        .then(res => {console.table(res); return res.json()})
         .then(data => {
           // Check if the response is an array with the specified fields
           if (Array.isArray(data) && data.length > 0 && Object.keys(data[0]).sort().toString() === ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"].sort().toString()) {

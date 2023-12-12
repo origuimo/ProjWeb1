@@ -10,6 +10,8 @@ import AG from '../views/AvailableGames.vue';
 import IG from '../views/InfoGame.vue';
 import GV from '../views/GameView.vue';
 import SG from '../views/AvailableGames.vue';
+import LG from '../views/LogIn.vue'
+import MLG from '../views/logInMenu.vue'
 
 import CC from '../views/CreateCharacterView.vue';
 import SR from '../views/ShowRankingView.vue';
@@ -37,7 +39,8 @@ const routes = [
       component: IG,
       props: true,
     },
-    
+  { path : '/login', component: LG},
+  { path: '/menulogin', component: MLG},  
   { path: '/createchar', component: CC },
   { path: '/showrank', component: SR },
   { path: '/showgame', component: SG },

@@ -19,7 +19,7 @@
     },
     methods: {
       navigateToOtherPage() {
-        this.$router.push('/createchar');
+        this.$router.push('/menulogin');
       },
     },
   };

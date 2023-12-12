@@ -1,49 +1,29 @@
 <template>
-  <div class="createchar">
-    <h1 class="createchartitle">{{title }}</h1>
-    <div class="content">
-      <section id="infochar">
-        <form>
-          <label for="NAME">NAME</label>
-          <input type="text" id="name" name="name" required>
+    <div class="createchar">
+      <h1 class="Logintitle">{{title }}</h1>
+      <div class="content">
+        <section id="infochar">
+          <form>
+            <label for="NAME">NAME</label>
+            <input type="text" id="name" name="name" required>
+            <label for="PASSWORD">PASSWORD</label>
+            <input type="text" id="password" name="password" required>
+            <button class= button3 @click="createNewChar">CREATE</button>
+          </form>
+        </section>
 
-          <label for="PASSWORD">PASSWORD</label>
-          <input type="text" id="password" name="password" required>
-
-          <label for="PASSWORD2">REPEAT PASSWORD</label>
-          <input type="text" id="password2" name="password2" required>
-        </form>
-
-        <h4>CHARACTER</h4>
-
-        <div class="characters">
-          <img src="@/assets/images/dracula.png" class="charsize" />
-          <img src="@/assets/images/dragon.png" class="charsize" />
-          <img src="@/assets/images/fantasma.png" class="charsize" />
-          <img src="@/assets/images/hada.png" class="charsize" />
-          <img src="@/assets/images/orco.png" class="charsize" />
-          <img src="@/assets/images/vikingo.png" class="charsize" />
-        </div>
-      </section>
-
-      <section class="charfinal">
-        <img src="@/assets/images/hada.png" class="charfinalsize" />
-        <h2>NAMECHAR</h2>
-        <button class= button3 @click="createNewChar">CREATE</button>
-      </section>
+      </div>
     </div>
-  </div>
-</template>
-
+  </template>
 <script>
 export default {
   data() {
     return {
-      title: 'Create Character',
+      title: 'Log in',
     };
   },
   methods: {
-  createNewChar() {
+  logIn() {
     this.$router.push('/menu');
   },
 }
@@ -107,7 +87,7 @@ export default {
   margin-top: 30px;
 }
 
-.createchartitle {
+.loginitle {
   text-align: center;
   font-size: 4vw; 
   margin: 2vw; 

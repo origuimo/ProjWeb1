@@ -24,6 +24,7 @@
 
 <script>
 import AvailableAttacksList from '@/components/AvailableAttacksList.vue';
+import '@/API/StoreAPI.js';
 
 export default {
   components: {
@@ -32,7 +33,8 @@ export default {
   data() {
     return {
       title: 'Available Attacks',
-      elementArray: [
+      
+      /*elementArray: [
       { id: 1, name: 'Attack 1', power: 1, price: 10, level: 1 },
         { id: 2, name: 'Atack 2', power: 2, price: 20, level: 2 },
         { id: 3, name: 'Atack 3', power: 3, price: 30, level: 3 },
@@ -45,7 +47,9 @@ export default {
         { id: 10, name: 'Atack 10', power: 10, price: 100, level: 10 },
         { id: 11, name: 'Atack 11', power: 11, price: 110, level: 11 },
         { id: 12, name: 'Atack 12', power: 12, price: 120, level: 12 },
-      ],
+      ],*/
+      
+
       selectedElement: null,
       filterBy: 'id',
       sortBy: 'asc',

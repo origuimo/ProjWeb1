@@ -5,10 +5,10 @@
       <section id="infochar">
         <form>
           <label for="NAME">NAME</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" name="name" required v-model="name">
 
           <label for="PASSWORD">PASSWORD</label>
-          <input type="text" id="password" name="password" required>
+          <input type="text" id="password" name="password" required v-model="password">
 
           <label for="PASSWORD2">REPEAT PASSWORD</label>
           <input type="text" id="password2" name="password2" required>
@@ -53,8 +53,8 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          player_ID: document.getElementById('name').value,
-          password: document.getElementById('password').value,
+          player_ID: this.name,
+          password: this.password,
           img: '   ',
         },),
       })  

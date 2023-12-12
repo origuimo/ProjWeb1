@@ -1,6 +1,6 @@
 <template>
   <div class="createchar">
-    <h1 class="title">{{ title }}</h1>
+    <h1 class="createchartitle">{{title }}</h1>
     <div class="content">
       <section id="infochar">
         <form>
@@ -107,8 +107,16 @@ export default {
   margin-top: 30px;
 }
 
-.title {
-margin-right: 20px;
+.createchartitle {
+  text-align: center;
+  font-size: 4vw; 
+  margin: 2vw; 
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(180deg, orangered, yellow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: 100%;
 }
 #infochar form label {
   color:black; 

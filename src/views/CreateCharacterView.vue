@@ -44,7 +44,7 @@ export default {
   },
   methods: {
   createNewChar() {
-    this.$router.push('/menu');
+    this.$router.push('/menulogin');
   },
 }
 };

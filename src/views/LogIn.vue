@@ -8,7 +8,7 @@
             <input type="text" id="name" name="name" required>
             <label for="PASSWORD">PASSWORD</label>
             <input type="text" id="password" name="password" required>
-            <button class= button3 @click="createNewChar">CREATE</button>
+            <button class= button3 @click="logIn">LOG IN</button>
           </form>
         </section>
 

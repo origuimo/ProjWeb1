@@ -40,13 +40,35 @@ export default {
   data() {
     return {
       title: 'Create Character',
+      name : '',
+      password : '',
     };
   },
   methods: {
   createNewChar() {
-    this.$router.push('/menulogin');
+    //convertimos la info en json
+      fetch('https://balandrau.salle.url.edu/i3/players', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          player_ID: document.getElementById('name').value,
+          password: document.getElementById('password').value,
+          img: '   ',
+        },),
+      })  
+      .then(response => {
+      if (response.status === 201) {
+        this.$router.push('/menulogin');
+      } else if (response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
+    },
   },
-}
 };
 </script>
 

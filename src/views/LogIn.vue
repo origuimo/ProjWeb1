@@ -20,15 +20,50 @@ export default {
   data() {
     return {
       title: 'Log in',
+      name: '',
+      password: '',
     };
   },
   methods: {
-  logIn() {
-    this.$router.push('/menu');
+    logIn() {
+      this.fetchData(); // Call fetchData when the Log In button is clicked
+    },
+    fetchData() {
+      const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+      const requestData = {
+        name: name,
+        password: password,
+      };
+
+      fetch('https://balandrau.salle.url.edu/i3/players/join', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then(res => {
+          if(res.status == 200){
+            console.log('holaa');
+          }
+        })
+        .then(data => {
+          console.log('Player ID:', data.player_ID);
+          console.log('XP:', data.xp);
+          console.log('Level:', data.level);
+          console.log('Coins:', data.coins);
+          console.log('Token:', data.token);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
   },
-}
 };
 </script>
+
 
 <style>
 .createchar {

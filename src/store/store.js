@@ -2,28 +2,17 @@ import { createStore } from 'vuex';
 
 
 const store = createStore({
-  modules: {
-
-    state: {
-
-      jugadorInfo: null,
-
-      mutations: {
-
-        InfoJugador(state, jugadorInfo) {
-          state.jugadorInfo = {
-            player_ID: jugadorInfo.player_ID,
-            xp: jugadorInfo.xp,
-            level: jugadorInfo.level,
-            coins: jugadorInfo.coins,
-            token: jugadorInfo.token,
-          };
-        },
-      },
-      getters: {
-        getToken: state => state.jugadorInfo?.token || null,
-      },
+  state: {
+    gameDataList: [], // Lista para almacenar los conjuntos de datos
+  },
+  mutations: {
+    guardarJuego(state, juego) {
+      juego.primerNumero = parseInt(juego.primerNumero);
+      state.gameDataList.push(juego);
     },
+  },
+  guardarbearer(state, nuevoBearer) {
+    state.bearer = nuevoBearer;
   },
 });
 

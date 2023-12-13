@@ -55,12 +55,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Bearer' : 'valortoke', //pillar el token 
+          'Bearer' : this.bearer, //pillar el token 
         },
       })
         .then(res => {console.table(res); return res.json()})
         .then(data => {
-          // Check if the response is an array with the specified fields
+
           if (Array.isArray(data) && data.length > 0 && Object.keys(data[0]).sort().toString() === ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"].sort().toString()) {
             
             this.elementArray = data.map(item => ({

@@ -3,11 +3,11 @@
       <h1 class="Logintitle">{{title }}</h1>
       <div class="content">
         <section id="infochar">
-          <form>
+          <form onsubmit="return false;">
             <label for="NAME">NAME</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" required:v-model="name">
             <label for="PASSWORD">PASSWORD</label>
-            <input type="text" id="password" name="password" required>
+            <input type="text" id="password" name="password" required:v-model="password">
             <button class= button3 @click="logIn">LOG IN</button>
           </form>
         </section>
@@ -29,12 +29,9 @@ export default {
       this.fetchData(); // Call fetchData when the Log In button is clicked
     },
     fetchData() {
-      const name = document.getElementById('name').value;
-      const password = document.getElementById('password').value;
-
       const requestData = {
-        name: name,
-        password: password,
+        player_ID: this.name,
+        password: this.password,
       };
 
       fetch('https://balandrau.salle.url.edu/i3/players/join', {
@@ -45,8 +42,10 @@ export default {
         body: JSON.stringify(requestData),
       })
         .then(res => {
-          if(res.status == 200){
-            console.log('holaa');
+          if (res.status == 200) {
+            return res.json();
+          } else {
+            throw new Error(`Failed with status: ${res.status}`);
           }
         })
         .then(data => {
@@ -57,9 +56,10 @@ export default {
           console.log('Token:', data.token);
         })
         .catch(error => {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error.message);
         });
     },
+
   },
 };
 </script>

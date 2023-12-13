@@ -55,10 +55,28 @@ export default {
       this.selectedElement = element;
     },
     sellAttack() {
-      // Implementa la lógica para guardar los datos
-      console.log('Nombre ataque:', this.selectedElement);
-      console.log('Precio ataque:', this.price);
-      this.$router.push('/menuStore');
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'id' : localStorage.getItem('id'), //pillar el id del ataque 
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+        },
+        body: JSON.stringify({
+          price: this.price,
+        },),
+      })  
+      .then(response => {
+      if (response.status === 200) {
+        console.log('Precio', this.price);
+        this.$router.push('/menuStore');
+      } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
+        return response.json();
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
     },
   },
 };

@@ -5,9 +5,9 @@
         <section id="infochar">
           <form onsubmit="return false;">
             <label for="NAME">NAME</label>
-            <input type="text" id="name" name="name" required:v-model="name">
+            <input type="text" id="name" name="name" required v-model="name">
             <label for="PASSWORD">PASSWORD</label>
-            <input type="text" id="password" name="password" required:v-model="password">
+            <input type="text" id="password" name="password" required v-model="password">
             <button class= button3 @click="logIn">LOG IN</button>
           </form>
         </section>
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     logIn() {
-      this.fetchData(); // Call fetchData when the Log In button is clicked
+      this.fetchData();
     },
     fetchData() {
       const requestData = {
@@ -42,24 +42,32 @@ export default {
         body: JSON.stringify(requestData),
       })
         .then(res => {
-          if (res.status == 200) {
+          if (res.status === 200) {
+            return res.json(); // Parse the response JSON when status is 200
+          } else if (res.status === 400) {
             return res.json();
           } else {
             throw new Error(`Failed with status: ${res.status}`);
           }
         })
         .then(data => {
-          console.log('Player ID:', data.player_ID);
-          console.log('XP:', data.xp);
-          console.log('Level:', data.level);
-          console.log('Coins:', data.coins);
-          console.log('Token:', data.token);
+          if (data && typeof data === 'object' && 'player_ID' in data) {
+            console.log('Player ID:', data.player_ID);
+            console.log('XP:', data.xp);
+            console.log('Level:', data.level);
+            console.log('Coins:', data.coins);
+            console.log('Token:', data.token);
+            localStorage.setItem('id', data.player_ID);
+            localStorage.setItem('token', data.token); //0dd3d79c-df5f-4944-b53c-3b3e12afab4d
+            this.$router.push('/menu');
+          } else {
+            console.error('Data is not in the expected format or is undefined.');
+          }
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
     },
-
   },
 };
 </script>

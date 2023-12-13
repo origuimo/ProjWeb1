@@ -36,10 +36,31 @@ export default {
       this.randomButtonVisible = false;
     },
     saveAttack() {
-      console.log('Nombre ataque:', this.name);
-      console.log('Posicion ataque:', this.position);
-      console.log('Poder ataque:', this.randomValue);
-      this.$router.push('/menuStore');
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+        },
+        body: JSON.stringify({
+          attack_ID: this.name,
+          positions: this.position,
+          img: '   ',
+        },),
+      })  
+      .then(response => {
+      if (response.status === 201) {
+        console.log('Nombre ataque:', this.name);
+        console.log('Posicion ataque:', this.position);
+        console.log('Poder ataque:', this.randomValue);
+        this.$router.push('/menuStore');
+      } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
+        return response.json();
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
     },
   },
 };

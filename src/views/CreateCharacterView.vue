@@ -62,6 +62,7 @@ export default {
       if (response.status === 201) {
         this.$router.push('/menulogin');
       } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
         return response.json();
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);

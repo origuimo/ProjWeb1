@@ -46,7 +46,7 @@
 <script>
 import Swal from 'sweetalert2';
 import { useStore } from 'vuex';
-
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -57,6 +57,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getToken']),
     dynamicGridGap() {
       const baseGap = 5;
       const minColumnsForGap = 5;
@@ -76,14 +77,8 @@ export default {
       const parsedFirstNumber = parseInt(this.firstNumber);
 
       if (!Number.isNaN(parsedFirstNumber) && parsedFirstNumber >= 2 && parsedFirstNumber <= 10) {
-        const juego = {
-          primerNumero: this.firstNumber,
-          segundoNumero: this.secondNumber,
-          nom: this.nom,
-        };
-
-        store.commit('guardarJuego', juego);
         console.log('Números guardados en el store:', store.state);
+        this.callApi();
       } else {
         Swal.fire({
           icon: 'error',
@@ -91,12 +86,38 @@ export default {
           text: 'El número debe estar entre 2 y 10.',
         });
       }
-      Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'You have enter the game as Player1 Good luck!',
-        });
     },
+
+    callApi() {
+      const requestData = {
+        game_ID: this.nom,
+        size: this.firstNumber,
+        HP_max: this.secondNumber
+      };
+      const token = this.getToken;
+      fetch('https://balandrau.salle.url.edu/i3/arenas', {
+        method: 'POST',
+        headers: {
+          "Bearer": token, 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then(res => {
+          if (res.status == 201) {
+            Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'You have enter the game as Player1 Good luck!',
+          });
+          }else{
+            throw new Error(`Failed with status: ${res.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+    }
   },
 };
 </script>

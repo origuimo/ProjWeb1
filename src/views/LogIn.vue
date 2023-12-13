@@ -5,9 +5,9 @@
         <section id="infochar">
           <form onsubmit="return false;">
             <label for="NAME">NAME</label>
-            <input type="text" id="name" name="name" required:v-model="name">
+            <input type="text" id="name" name="name" required v-model="name">
             <label for="PASSWORD">PASSWORD</label>
-            <input type="text" id="password" name="password" required:v-model="password">
+            <input type="text" id="password" name="password" required v-model="password">
             <button class= button3 @click="logIn">LOG IN</button>
           </form>
         </section>
@@ -16,6 +16,7 @@
     </div>
   </template>
 <script>
+import Swal from 'sweetalert2';
 export default {
   data() {
     return {
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     logIn() {
-      this.fetchData(); // Call fetchData when the Log In button is clicked
+      this.fetchData();
     },
     fetchData() {
       const requestData = {
@@ -44,16 +45,19 @@ export default {
         .then(res => {
           if (res.status == 200) {
             return res.json();
-          } else {
+          } else if(res.status == 404){
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Usuario o Contraseña incorrectos',
+            });
+          }else{
             throw new Error(`Failed with status: ${res.status}`);
           }
         })
         .then(data => {
-          console.log('Player ID:', data.player_ID);
-          console.log('XP:', data.xp);
-          console.log('Level:', data.level);
-          console.log('Coins:', data.coins);
-          console.log('Token:', data.token);
+          this.$store.commit('InfoJugador', data);
+          this.$router.push('/menu');
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

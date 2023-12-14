@@ -16,6 +16,7 @@
     </div>
   </template>
 <script>
+import Swal from 'sweetalert2';
 export default {
   data() {
     return {
@@ -46,23 +47,19 @@ export default {
             return res.json(); // Parse the response JSON when status is 200
           } else if (res.status === 400) {
             return res.json();
-          } else {
+          } else if(res.status == 404){
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Usuario o Contraseña incorrectos',
+            });
+          }else{
             throw new Error(`Failed with status: ${res.status}`);
           }
         })
         .then(data => {
-          if (data && typeof data === 'object' && 'player_ID' in data) {
-            console.log('Player ID:', data.player_ID);
-            console.log('XP:', data.xp);
-            console.log('Level:', data.level);
-            console.log('Coins:', data.coins);
-            console.log('Token:', data.token);
-            localStorage.setItem('id', data.player_ID);
-            localStorage.setItem('token', data.token); //0dd3d79c-df5f-4944-b53c-3b3e12afab4d
-            this.$router.push('/menu');
-          } else {
-            console.error('Data is not in the expected format or is undefined.');
-          }
+          this.$store.commit('InfoJugador', data);
+          this.$router.push('/menu');
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

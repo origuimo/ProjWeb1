@@ -10,15 +10,15 @@
           <div class="input-section">
             <div class="section1">
               <div class="text">Files i columnes:&nbsp;&nbsp;</div>
-              <input type="text" v-model="firstNumber" placeholder="First Number" />
+              <input type="text" required v-model="firstNumber" placeholder="First Number" />
             </div>
             <div class="section2">
               <div class="text">HP del jugador:&nbsp;&nbsp;&nbsp;&nbsp;</div>
-              <input type="text" v-model="secondNumber" placeholder="Second Number" />
+              <input type="text" required v-model="secondNumber" placeholder="Second Number" />
             </div>
             <div class="section3">
               <div class="text">Nom de la partida:&nbsp;</div>
-              <input type="text" v-model="nom" placeholder="Nom" />
+              <input type="text" required v-model="nom" placeholder="Nom" />
             </div>
             <div class="spacer"></div>
             <div class="button-section">
@@ -29,7 +29,7 @@
       </div>
 
       <div class="right-section">
-        <div class="cuadricula-container">
+        <div class="cuadricula-container" v-if="this.firstNumber !== null && this.firstNumber !== ''">
           <div
             class="grid-container"
             :style="{ gridTemplateColumns: `repeat(${parseInt(firstNumber)}, 1fr)`, gridGap: dynamicGridGap, width: gridWidth + 'px' }"
@@ -45,45 +45,45 @@
 
 <script>
 import Swal from 'sweetalert2';
-import { useStore } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       title: 'New Game',
-      firstNumber: 0,
-      secondNumber: 0,
-      nom: ' ',
+      firstNumber: '', // Cambiado a cadena vacía en lugar de 0
+      secondNumber: '',
+      nom: '',
     };
   },
   computed: {
+    ...mapGetters(['getToken']),
     dynamicGridGap() {
-      const baseGap = 5;
-      const minColumnsForGap = 5;
-      const columns = parseInt(this.firstNumber);
-      return columns >= minColumnsForGap ? `${baseGap}px` : '5px';
+      if (this.firstNumber !== null && this.firstNumber !== '') {
+        const baseGap = 5;
+        const minColumnsForGap = 5;
+        const columns = parseInt(this.firstNumber);
+        return columns >= minColumnsForGap ? `${baseGap}px` : '5px';
+      } else {
+        return '5px';
+      }
     },
     gridWidth() {
-      const baseSquareSize = 50; // Tamaño base de cada cuadrado
-      const gap = parseInt(this.dynamicGridGap);
-      const columns = parseInt(this.firstNumber);
-      return columns * baseSquareSize + (columns - 1) * gap;
+      if (this.firstNumber !== null && this.firstNumber !== '') {
+        const baseSquareSize = 50;
+        const gap = parseInt(this.dynamicGridGap);
+        const columns = parseInt(this.firstNumber);
+        return columns * baseSquareSize + (columns - 1) * gap;
+      } else {
+        return 0;
+      }
     },
   },
   methods: {
     saveNumbers() {
-      const store = useStore();
       const parsedFirstNumber = parseInt(this.firstNumber);
-
       if (!Number.isNaN(parsedFirstNumber) && parsedFirstNumber >= 2 && parsedFirstNumber <= 10) {
-        const juego = {
-          primerNumero: this.firstNumber,
-          segundoNumero: this.secondNumber,
-          nom: this.nom,
-        };
-
-        store.commit('guardarJuego', juego);
-        console.log('Números guardados en el store:', store.state);
+        this.callApi();
       } else {
         Swal.fire({
           icon: 'error',
@@ -91,10 +91,37 @@ export default {
           text: 'El número debe estar entre 2 y 10.',
         });
       }
-      Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'You have enter the game as Player1 Good luck!',
+    },
+    callApi() {
+      const requestData = {
+        game_ID: this.nom,
+        size: parseInt(this.firstNumber),
+        HP_max: parseInt(this.secondNumber),
+      };
+      const token = this.getToken;
+      console.log("body", requestData);
+
+      fetch('https://balandrau.salle.url.edu/i3/arenas', {
+        method: 'POST',
+        headers: {
+          "Bearer": token, 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then(res => {
+          if (res.status == 201) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'You have entered the game as Player1. Good luck!',
+            });
+          } else {
+            throw new Error(`Failed with status: ${res.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
         });
     },
   },

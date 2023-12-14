@@ -9,6 +9,10 @@ const store = createStore({
       jugadorInfo: null,
 
       mutations: {
+        
+        setGameDataList(state, data) {
+          state.gameDataList = data;
+        },
 
         InfoJugador(state, jugadorInfo) {
           state.jugadorInfo = {

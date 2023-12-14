@@ -12,7 +12,7 @@
         <div class="player" v-for="player in gameDataList" :key="player.id">
           <div class="player-details">
             <div class="player-info">
-              <img :src="player.image">
+              <img :src="player.image" alt="Player Image">
               <div class="player-text">
                 <h3>{{ player.nom }}</h3>
                 <h3>{{ nom }}</h3>
@@ -28,13 +28,17 @@
   
   <script>
   import { mapState } from 'vuex';
-  
+  import { mapGetters } from 'vuex';
   export default {
     data() {
       return {
         title: 'Available Games',
         nom: 'Partida 1',
       };
+    },
+
+    mounted(){
+      this.callApi();
     },
     methods: {
       navigateToOption1(player) {
@@ -48,11 +52,35 @@
           }
         });
       },
+      callApi() {
+      const token = this.getToken;
+      console.log("wi  ", token);
+      fetch('https://balandrau.salle.url.edu/i3/arenas', {
+        method: 'GET',
+        headers: {
+          "Bearer": token, 
+          'Content-Type': 'application/json',
+        },
+
+      })
+        .then(res => {
+          if (res.status == 200) {
+            const data = res.json();
+            this.$store.commit('setGameDataList', data);
+          }else{
+            throw new Error(`Failed with status: ${res.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+    }
     },
 
 
     computed: {
       ...mapState(['gameDataList']),
+      ...mapGetters(['getToken']),
     },
 
   };

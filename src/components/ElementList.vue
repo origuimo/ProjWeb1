@@ -1,29 +1,73 @@
 <template>
     <div class="element-list">
       <ul class="element-list-container">
-        <li v-for="(element, index) in elements" :key="index" @click="selectElement(element)" :class="{ 'selected': element === selectedElement }">
-          {{ element.name }}
+        <li v-for="(element, index) in elementArray" :key="index" @click="selectElement(element)" :class="{ 'selected': element === selectedElement }">
+          {{ element.id }}
         </li>
       </ul>
     </div>
   </template>
   
   <script>
-  export default {
-    props: {
-      elements: {
-        type: Array,
-        required: true,
-      },
-      selectedElement: Object,
+
+export default {
+  data() {
+    return {
+      elementArray: [],
+      selectedElement: null,
+    };
+  },
+  methods: {
+    selectElement(element) {
+      console.log('selecionado', element)
+      this.$emit('elementSelected', element);
     },
-    methods: {
-      selectElement(element) {
-        this.$emit('elementSelected', element);
-      },
+    fetchData() {
+      fetch(`https://balandrau.salle.url.edu/i3/players/victoria/attacks`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
+          'id' : 'victoria',
+        },
+      })
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`Unexpected response status: ${res.status}`);
+          }
+        })
+        .then(data => {
+          console.log('Received data from API:', data);
+          if (Array.isArray(data) && data.length > 0) {
+            const expectedKeys = ["attack_ID", "positions", "power", "equipped", "on_sale"];
+            if (Object.keys(data[0]).sort().toString() === expectedKeys.sort().toString()) {
+              this.elementArray = data.map(item => ({
+                id: item.attack_ID,
+                positions: item.positions,
+                power: item.power,
+                equipped: item.equipped, // Corregido el nombre de la propiedad
+                onSale: item.on_sale,
+              }));
+            } else {
+              console.error('Invalid data format received from the API. Keys do not match expected format.');
+            }
+          } else {
+            console.warn('No available attacks.');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
     },
-  };
-  </script>
+  },
+  created() {
+    this.fetchData(); // Fetch data when the component is created
+  },
+};
+</script>
+
   
   <style scoped>
   .element-list {

@@ -26,6 +26,8 @@ const store = createStore({
       },
       getters: {
         getToken: state => state.jugadorInfo?.token || null,
+        getCoins: state => state.jugadorInfo?.coins || null,
+        getLevel: state => state.jugadorInfo?.level || null,
       },
     },
   },

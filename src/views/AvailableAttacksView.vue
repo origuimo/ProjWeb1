@@ -41,9 +41,14 @@ export default {
   computed: {
     filteredElements() {
       const elements = [...this.elementArray];
-      return elements
-        .sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]))
-        .map(element => ({ ...element }));
+      if (this.filterBy === 'id') {
+        // Ordenar alfabéticamente por ID
+        elements.sort((a, b) => (this.sortBy === 'asc' ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id)));
+      } else {
+        // Ordenar por otras propiedades numéricas
+        elements.sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]));
+      }
+      return elements.map(element => ({ ...element }));
     },
   },
   methods: {
@@ -74,7 +79,7 @@ export default {
             if (Object.keys(data[0]).sort().toString() === expectedKeys.sort().toString()) {
               this.elementArray = data.map(item => ({
                 id: item.attack_ID,
-                name: item.positions,
+                positions: item.positions,
                 power: item.power,
                 price: item.price,
                 level: item.level_needed,

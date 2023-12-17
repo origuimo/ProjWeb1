@@ -1,6 +1,6 @@
 <template>
   <div class="attackdetailview">
-    <h1 class="attack-title">{{ attack.name }} Details</h1>
+    <h1 class="attack-title">{{ attack.id }} Details</h1>
     <div class="info">
         <p class="info-text">Attack ID: {{ attack.id }}</p>
         <p class="info-text">Positions: {{ attack.positions }}</p>
@@ -13,31 +13,63 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 export default {
+  computed: {
+    ...mapState(['attackInfo']),
+    userCoins() {
+      return this.$store.getters.getCoins; // Accede al getter para obtener el valor de coins
+    },
+    userLevel() {
+      return this.$store.getters.getLevel; // Accede al getter para obtener el valor de coins
+    },
+  },
   data() {
     return {
       attack: null
     };
   },
   created() {
-    // Obtén el ID del ataque desde la ruta
-    const attackId = this.$route.params.id;
-    this.attack = this.getElementDetailsById(attackId);
+    // Obtén el ataque almacenado en localStorage
+    const storedAttack = localStorage.getItem('attackItem');
+    // Parsea la cadena JSON y asigna el ataque a la propiedad local
+    this.attack = storedAttack ? JSON.parse(storedAttack) : null;
   },
   methods: {
-    getElementDetailsById(id) {
-      // Llamamos a la API para que nos devuelva la info de este ataque y manejamos la array para quedarnos solo con el que nos interesa
-      return {
-        id: id,
-        name: 'Demon incantation',
-        positions: `1,3`,
-        power: 4,
-        price: 20,
-        level: 6,
-      };
-    },
     buyAttack() {
+      //no tienes el dinero para comprarlo o el nivel
+      if(this.attack.price > this.userCoins() || this.attack.level > this.userLevel()) {
+          //mostar mensaje de error al comprar 
+      }
+      else {
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/victoria/buy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          attack_ID: this.name,
+          positions: this.position,
+          img: '   ',
+        }),
+      })
+        .then(response => {
+          if (response.status === 201) {
+            this.$router.push('/menuStore');
+          } else if (response.status === 400) {
+            return response.json();
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error saving attack:', error);
+        });
       this.$router.push('/menuStore');
+      }
     },
   },
 };

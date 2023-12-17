@@ -10,11 +10,10 @@
           <input type="text" v-model="position" placeholder="Enter position" />
         </div>
       </div>
-      <button v-if="randomButtonVisible" @click="generateRandomValue" class="generate-button">Generate random power</button>
-      <div v-if="randomValue !== null">Power: {{ randomValue }}</div>
     </div>
     <div>
       <button @click="saveAttack" class="save-button">Save Attack</button>
+      <div v-if="showError" class="error-message">Formato de posición incorrecto</div>
     </div>
   </div>
 </template>
@@ -26,41 +25,48 @@ export default {
       title: 'Create Attack',
       name: '',
       position: '',
-      randomValue: null,
-      randomButtonVisible: true,
+      showError: false,
     };
   },
   methods: {
-    generateRandomValue() {
-      this.randomValue = Math.floor(Math.random() * 16) + 2;
-      this.randomButtonVisible = false;
-    },
     saveAttack() {
+      // Validar el formato de la posición
+      if (!this.validatePosition()) {
+        // Mostrar mensaje de error y no continuar con la operación
+        this.showError = true;
+        //alert('Error: Invalid position format. Please enter positions as "(number, number)".');
+        return;
+      }
+      this.showError = false;
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          'Bearer': localStorage.getItem('token'),
         },
         body: JSON.stringify({
           attack_ID: this.name,
           positions: this.position,
-          img: '   ',
-        },),
-      })  
-      .then(response => {
-      if (response.status === 201) {
-        console.log('Nombre ataque:', this.name);
-        console.log('Posicion ataque:', this.position);
-        console.log('Poder ataque:', this.randomValue);
-        this.$router.push('/menuStore');
-      } else if (response.status === 400) {
-        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
-        return response.json();
-      } else {
-        throw new Error(`Unexpected response status: ${response.status}`);
-      }
-    })
+          img: 'src\assets\images\espada.jpg',
+        }),
+      })
+        .then(response => {
+          if (response.status === 201) {
+            this.$router.push('/menuStore');
+          } else if (response.status === 400) {
+            return response.json();
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error saving attack:', error);
+        });
+    },
+    validatePosition() {
+      // Validar que la posición siga el formato deseado (número, número)
+      const positionRegex = /^\(\d+,\d+\)$/;
+      return positionRegex.test(this.position);
     },
   },
 };
@@ -113,34 +119,25 @@ input {
   font-size: 1.5vw;
 }
 
-.generate-button {
-  margin-top: 1vw;
-  padding: 2vw 4vw;
-  font-size: 1.5vw;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 0.5vw;
-  background-image: url('@/assets/images/button.jpg');
-  cursor: pointer;
-  width: 60%; 
-  text-align: center; 
-  line-height: 1.5;
-}
 .save-button {
   width: 10vh; 
-    height: 8vh;  
-    padding: 1vw; 
-    font-size: 1em; 
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
+  height: 8vh;  
+  padding: 1vw; 
+  font-size: 1em; 
+  font-weight: bold;
+  position: relative;
+  background-image: url('@/assets/images/button.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5%;
+}
+.error-message {
+  color: red;
+  font-size: 1.5vw;
+  margin-top: 1vw;
 }
 </style>

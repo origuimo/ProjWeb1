@@ -4,10 +4,10 @@
     <div class="options">
       <div class="textos">
         <div>Attack name:
-          <input type="text" v-model="name" placeholder="Enter name" />
+          <input type="text" v-model="name" plsaceholder="Enter name" title="Sugerencia: Ataque mortal aprobador de compus" required/>
         </div>
         <div>Position:
-          <input type="text" v-model="position" placeholder="Enter position" />
+          <input type="text" v-model="position" placeholder="Enter position" title="Formato: (numero,numero)" required/>
         </div>
       </div>
     </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -32,11 +34,13 @@ export default {
     saveAttack() {
       // Validar el formato de la posición
       if (!this.validatePosition()) {
-        // Mostrar mensaje de error y no continuar con la operación
-        this.showError = true;
-        //alert('Error: Invalid position format. Please enter positions as "(number, number)".');
-        return;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Formato incorrecto!',
+        });
       }
+      else {
       this.showError = false;
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
         method: 'POST',
@@ -47,7 +51,7 @@ export default {
         body: JSON.stringify({
           attack_ID: this.name,
           positions: this.position,
-          img: 'src\assets\images\espada.jpg',
+          img: 'src/assets/images/espada.jpg',
         }),
       })
         .then(response => {
@@ -62,6 +66,7 @@ export default {
         .catch(error => {
           console.error('Error saving attack:', error);
         });
+      }
     },
     validatePosition() {
       // Validar que la posición siga el formato deseado (número, número)

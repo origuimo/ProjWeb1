@@ -15,6 +15,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import Swal from 'sweetalert2';
 
 export default {
   computed: {
@@ -23,7 +24,10 @@ export default {
       return this.$store.getters.getCoins; // Accede al getter para obtener el valor de coins
     },
     userLevel() {
-      return this.$store.getters.getLevel; // Accede al getter para obtener el valor de coins
+      return this.$store.getters.getLevel; // Accede al getter para obtener el valor de level
+    },
+    getUserID() {
+      return this.$store.getters.getID; // Accede al getter para obtener el valor de id
     },
   },
   data() {
@@ -40,11 +44,32 @@ export default {
   methods: {
     buyAttack() {
       //no tienes el dinero para comprarlo o el nivel
-      if(this.attack.price > this.userCoins() || this.attack.level > this.userLevel()) {
+      if(this.attack.price > this.userCoins() && this.attack.level > this.userLevel()) {
           //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are weak and poor :(',
+        });
+      }
+      else if(this.attack.price > this.userCoins() ) {
+          //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are too poor!',
+        });
+      }
+      else if( this.attack.level > this.userLevel()) {
+          //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are too weak!',
+        });
       }
       else {
-      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/victoria/buy', {
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.getUserID()+ '/buy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,6 +83,7 @@ export default {
       })
         .then(response => {
           if (response.status === 201) {
+            //tienes que guardarlo en tu lista de ataques
             this.$router.push('/menuStore');
           } else if (response.status === 400) {
             return response.json();

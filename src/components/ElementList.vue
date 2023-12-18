@@ -1,7 +1,7 @@
 <template>
     <div class="element-list">
       <ul class="element-list-container">
-        <li v-for="(element, index) in elementArray" :key="index" @click="selectElement(element)" :class="{ 'selected': element === selectedElement }">
+        <li v-for="(element, index) in filteredElementArray" :key="index" @click="selectElement(element)" :class="{ 'selected': element === selectedElement }">
           {{ element.id }}
         </li>
       </ul>
@@ -16,6 +16,12 @@ export default {
       elementArray: [],
       selectedElement: null,
     };
+  },
+  computed: {
+    // Filtra los elementos que tienen on_sale en false
+    filteredElementArray() {
+      return this.elementArray.filter(element => !element.onSale);
+    },
   },
   methods: {
     selectElement(element) {

@@ -69,21 +69,16 @@ export default {
         });
       }
       else {
-      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/victoria/buy', {
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.attack.id + '/buy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
           //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
-        body: JSON.stringify({
-          attack_ID: this.name,
-          positions: this.position,
-          img: '   ',
-        }),
       })
         .then(response => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             //tienes que guardarlo en tu lista de ataques
             this.$router.push('/menuStore');
           } else if (response.status === 400) {

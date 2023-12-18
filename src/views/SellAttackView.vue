@@ -38,16 +38,23 @@ export default {
       this.selectedElement = element;
     },
     sellAttack() {
+      
+      // Convert price to a number
+      const numericPrice = Number(this.price);
+
+      console.log('price', localStorage.getItem('token') );
+
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.selectedElement.id + '/sell', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
         body: JSON.stringify({
-          price: this.price,
-        },),
-      })  
+          price: numericPrice,
+        }),
+      }) 
       .then(response => {
       if (response.status === 200) {
         console.log('Precio', this.price);
@@ -55,7 +62,12 @@ export default {
       } else if (response.status === 400) {
         //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
         return response.json();
-      } else {
+      } else if (response.status === 422) {
+        return response.json();
+      }else if (response.status === 403) {
+        //this atatck is already on sale
+        return response.json();
+      }else {
         throw new Error(`Unexpected response status: ${response.status}`);
       }
     })

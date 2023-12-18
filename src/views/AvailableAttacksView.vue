@@ -61,6 +61,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
       })
       .then(res => {

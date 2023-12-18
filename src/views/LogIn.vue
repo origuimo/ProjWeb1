@@ -58,6 +58,8 @@ export default {
           }
         })
         .then(data => {
+          //VIC: ESTO LO QUITAS CUANDO ARREGLES LO DEL TOKEN :)
+          localStorage.setItem('token', data.token);
           this.$store.commit('InfoJugador', data);
           this.$router.push('/menu');
         })

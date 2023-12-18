@@ -44,7 +44,7 @@ export default {
   methods: {
     buyAttack() {
       //no tienes el dinero para comprarlo o el nivel
-      if(this.attack.price > this.userCoins() && this.attack.level > this.userLevel()) {
+      if(this.attack.price > this.userCoins && this.attack.level > this.userLevel) {
           //mostar mensaje de error al comprar 
           Swal.fire({
           icon: 'error',
@@ -52,7 +52,7 @@ export default {
           text: 'You are weak and poor :(',
         });
       }
-      else if(this.attack.price > this.userCoins() ) {
+      else if(this.attack.price > this.userCoins ) {
           //mostar mensaje de error al comprar 
           Swal.fire({
           icon: 'error',
@@ -60,7 +60,7 @@ export default {
           text: 'You are too poor!',
         });
       }
-      else if( this.attack.level > this.userLevel()) {
+      else if( this.attack.level > this.userLevel) {
           //mostar mensaje de error al comprar 
           Swal.fire({
           icon: 'error',
@@ -69,11 +69,12 @@ export default {
         });
       }
       else {
-      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.getUserID()+ '/buy', {
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/victoria/buy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Bearer': localStorage.getItem('token'),
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
         body: JSON.stringify({
           attack_ID: this.name,

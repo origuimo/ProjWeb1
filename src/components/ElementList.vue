@@ -23,12 +23,11 @@ export default {
       this.$emit('elementSelected', element);
     },
     fetchData() {
-      fetch(`https://balandrau.salle.url.edu/i3/players/victoria/attacks`, {
+      fetch(`https://balandrau.salle.url.edu/i3/players/attacks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Bearer': localStorage.getItem('token'),
-          'id' : 'victoria',
         },
       })
         .then(res => {

@@ -4,16 +4,15 @@
     <div class="options">
       <div class="textos">
         <div>Attack name:
-          <input type="text" v-model="name" plsaceholder="Enter name" title="Sugerencia: Ataque mortal aprobador de compus" required/>
+          <input type="text" v-model="name" plsaceholder="Enter name" required/>
         </div>
         <div>Position:
-          <input type="text" v-model="position" placeholder="Enter position" title="Formato: (numero,numero)" required/>
+          <input type="text" v-model="position" placeholder="(numero,numero)" required/>
         </div>
       </div>
     </div>
     <div>
       <button @click="saveAttack" class="save-button">Save Attack</button>
-      <div v-if="showError" class="error-message">Formato de posición incorrecto</div>
     </div>
   </div>
 </template>
@@ -31,13 +30,41 @@ export default {
     };
   },
   methods: {
+    validatePosition() {
+      const positionRegex = /^\(\d+,\d+\)$/;
+      return positionRegex.test(this.position);
+    },
+
+    validateNameMax() {
+      const nameLength = this.name.length;
+      return nameLength < 21;
+    },
+    validateNameMin() {
+      const nameLength = this.name.length;
+      return nameLength > 0;
+    },
+
     saveAttack() {
-      // Validar el formato de la posición
+      console.log("Token", localStorage.getItem('token'));
+      let errorMessage = '';
+
+      if (!this.validateNameMin()) {
+        errorMessage += 'Attack must have a name!\n';
+      }
+
       if (!this.validatePosition()) {
+        errorMessage += 'Incorrect position format!\n';
+      }
+
+      if (!this.validateNameMax()) {
+        errorMessage += 'Attack name must not surpass 21 characters!\n';
+      }
+
+      if (errorMessage !== '') {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Formato incorrecto!',
+          text: errorMessage.trim(),
         });
       }
       else {
@@ -46,6 +73,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          //'Bearer': '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
           'Bearer': localStorage.getItem('token'),
         },
         body: JSON.stringify({
@@ -67,11 +95,6 @@ export default {
           console.error('Error saving attack:', error);
         });
       }
-    },
-    validatePosition() {
-      // Validar que la posición siga el formato deseado (número, número)
-      const positionRegex = /^\(\d+,\d+\)$/;
-      return positionRegex.test(this.position);
     },
   },
 };
@@ -139,10 +162,5 @@ input {
   border-radius: 5px;
   cursor: pointer;
   margin: 5%;
-}
-.error-message {
-  color: red;
-  font-size: 1.5vw;
-  margin-top: 1vw;
 }
 </style>

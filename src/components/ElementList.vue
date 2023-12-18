@@ -82,11 +82,12 @@ export default {
   
   .element-list-container li {
     cursor: pointer;
-    padding: 10px;
+    padding: 1vw;
   }
   
   .element-list-container li.selected {
     text-decoration: underline;
+    text-decoration-color: white; /* Cambia el color del subrayado a blanco */
   }
   </style>
   

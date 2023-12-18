@@ -131,8 +131,6 @@ h1 {
   border-radius: 0.5vw;
   font-size: 1.5vw;
 }
-
-
 .sell-button {
   width: 20vh; 
     height: 8vh;  

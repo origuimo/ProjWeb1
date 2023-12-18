@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     validatePosition() {
-      const positionRegex = /^\(\d+,\d+\)$/;
+      const positionRegex = /^\([0-9],[0-9]\)$/;
       return positionRegex.test(this.position);
     },
 
@@ -85,8 +85,11 @@ export default {
         .then(response => {
           if (response.status === 201) {
             this.$router.push('/menuStore');
-          } else if (response.status === 400) {
-            return response.json();
+          } else if (response.status === 412) {
+            return response.json().then(errorData => {
+            console.log('Error JSON:', errorData);
+            // Rest of the code...
+          });
           } else {
             throw new Error(`Unexpected response status: ${response.status}`);
           }

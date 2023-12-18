@@ -5,7 +5,6 @@
       <label>Filter by:</label>
       <select v-model="filterBy" @change="applyFilters" class="filters-value">
         <option value="id">ID</option>
-        <option value="power">Power</option>
         <option value="price">Price</option>
         <option value="level">Level</option>
       </select>

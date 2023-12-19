@@ -4,14 +4,12 @@
     <div class="options">
       <div class="textos">
         <div>Attack name:
-          <input type="text" v-model="name" placeholder="Enter name" />
+          <input type="text" v-model="name" plsaceholder="Enter name" required/>
         </div>
         <div>Position:
-          <input type="text" v-model="position" placeholder="Enter position" />
+          <input type="text" v-model="position" placeholder="(numero,numero)" required/>
         </div>
       </div>
-      <button v-if="randomButtonVisible" @click="generateRandomValue" class="generate-button">Generate random power</button>
-      <div v-if="randomValue !== null">Power: {{ randomValue }}</div>
     </div>
     <div>
       <button @click="saveAttack" class="save-button">Save Attack</button>
@@ -20,26 +18,86 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
       title: 'Create Attack',
       name: '',
       position: '',
-      randomValue: null,
-      randomButtonVisible: true,
+      showError: false,
     };
   },
   methods: {
-    generateRandomValue() {
-      this.randomValue = Math.floor(Math.random() * 16) + 2;
-      this.randomButtonVisible = false;
+    validatePosition() {
+      const positionRegex = /^\([0-9],[0-9]\)$/;
+      return positionRegex.test(this.position);
     },
+
+    validateNameMax() {
+      const nameLength = this.name.length;
+      return nameLength < 21;
+    },
+    validateNameMin() {
+      const nameLength = this.name.length;
+      return nameLength > 0;
+    },
+
     saveAttack() {
-      console.log('Nombre ataque:', this.name);
-      console.log('Posicion ataque:', this.position);
-      console.log('Poder ataque:', this.randomValue);
-      this.$router.push('/menuStore');
+      console.log("Token", localStorage.getItem('token'));
+      let errorMessage = '';
+
+      if (!this.validateNameMin()) {
+        errorMessage += 'Attack must have a name!\n';
+      }
+
+      if (!this.validatePosition()) {
+        errorMessage += 'Incorrect position format!\n';
+      }
+
+      if (!this.validateNameMax()) {
+        errorMessage += 'Attack name must not surpass 21 characters!\n';
+      }
+
+      if (errorMessage !== '') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage.trim(),
+        });
+      }
+      else {
+      this.showError = false;
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          //'Bearer': '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
+          'Bearer': localStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          attack_ID: this.name,
+          positions: this.position,
+          img: 'src/assets/images/espada.jpg',
+        }),
+      })
+        .then(response => {
+          if (response.status === 201) {
+            this.$router.push('/menuStore');
+          } else if (response.status === 412) {
+            return response.json().then(errorData => {
+            console.log('Error JSON:', errorData);
+            // Rest of the code...
+          });
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error saving attack:', error);
+        });
+      }
     },
   },
 };
@@ -92,34 +150,20 @@ input {
   font-size: 1.5vw;
 }
 
-.generate-button {
-  margin-top: 1vw;
-  padding: 2vw 4vw;
-  font-size: 1.5vw;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 0.5vw;
-  background-image: url('@/assets/images/button.jpg');
-  cursor: pointer;
-  width: 60%; 
-  text-align: center; 
-  line-height: 1.5;
-}
 .save-button {
   width: 10vh; 
-    height: 8vh;  
-    padding: 1vw; 
-    font-size: 1em; 
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
+  height: 8vh;  
+  padding: 1vw; 
+  font-size: 1em; 
+  font-weight: bold;
+  position: relative;
+  background-image: url('@/assets/images/button.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5%;
 }
 </style>

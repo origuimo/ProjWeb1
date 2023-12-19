@@ -28,24 +28,7 @@ export default {
   data() {
     return {
       title: 'Sell Attack',
-      elementArray: [
-        { id: 1, name: 'Attack 1' },
-        { id: 2, name: 'Attack 2' },
-        { id: 3, name: 'Attack 3' },
-        { id: 4, name: 'Attack 4' },
-        { id: 5, name: 'Attack 5' },
-        { id: 6, name: 'Attack 6' },
-        { id: 7, name: 'Attack 7' },
-        { id: 8, name: 'Attack 8' },
-        { id: 9, name: 'Attack 9' },
-        { id: 10, name: 'Attack 10' },
-        { id: 11, name: 'Attack 11' },
-        { id: 12, name: 'Attack 12' },
-        { id: 13, name: 'Attack 13' },
-        { id: 14, name: 'Attack 14' },
-        { id: 15, name: 'Attack 15' },
-        
-      ],
+      elementArray: [],
       selectedElement: null,
       price: 0,
     };
@@ -55,10 +38,39 @@ export default {
       this.selectedElement = element;
     },
     sellAttack() {
-      // Implementa la lógica para guardar los datos
-      console.log('Nombre ataque:', this.selectedElement);
-      console.log('Precio ataque:', this.price);
-      this.$router.push('/menuStore');
+      
+      // Convert price to a number
+      const numericPrice = Number(this.price);
+
+      console.log('price', localStorage.getItem('token') );
+
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.selectedElement.id + '/sell', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
+        },
+        body: JSON.stringify({
+          price: numericPrice,
+        }),
+      }) 
+      .then(response => {
+      if (response.status === 200) {
+        console.log('Precio', this.price);
+        this.$router.push('/menuStore');
+      } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
+        return response.json();
+      } else if (response.status === 422) {
+        return response.json();
+      }else if (response.status === 403) {
+        //this atatck is already on sale
+        return response.json();
+      }else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
     },
   },
 };
@@ -119,8 +131,6 @@ h1 {
   border-radius: 0.5vw;
   font-size: 1.5vw;
 }
-
-
 .sell-button {
   width: 20vh; 
     height: 8vh;  

@@ -43,7 +43,9 @@ export default {
         body: JSON.stringify(requestData),
       })
         .then(res => {
-          if (res.status == 200) {
+          if (res.status === 200) {
+            return res.json(); // Parse the response JSON when status is 200
+          } else if (res.status === 400) {
             return res.json();
           } else if(res.status == 404){
             Swal.fire({
@@ -56,6 +58,8 @@ export default {
           }
         })
         .then(data => {
+          //VIC: ESTO LO QUITAS CUANDO ARREGLES LO DEL TOKEN :)
+          localStorage.setItem('token', data.token);
           this.$store.commit('InfoJugador', data);
           this.$router.push('/menu');
         })
@@ -63,7 +67,6 @@ export default {
           console.error('Error fetching data:', error.message);
         });
     },
-
   },
 };
 </script>

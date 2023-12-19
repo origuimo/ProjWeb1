@@ -5,7 +5,6 @@
       <label>Filter by:</label>
       <select v-model="filterBy" @change="applyFilters" class="filters-value">
         <option value="id">ID</option>
-        <option value="power">Power</option>
         <option value="price">Price</option>
         <option value="level">Level</option>
       </select>
@@ -41,9 +40,14 @@ export default {
   computed: {
     filteredElements() {
       const elements = [...this.elementArray];
-      return elements
-        .sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]))
-        .map(element => ({ ...element }));
+      if (this.filterBy === 'id') {
+        // Ordenar alfabéticamente por ID
+        elements.sort((a, b) => (this.sortBy === 'asc' ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id)));
+      } else {
+        // Ordenar por otras propiedades numéricas
+        elements.sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]));
+      }
+      return elements.map(element => ({ ...element }));
     },
   },
   methods: {
@@ -55,24 +59,37 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Bearer' : this.bearer, //pillar el token 
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
       })
-        .then(res => {console.table(res); return res.json()})
-        .then(data => {
-
-          if (Array.isArray(data) && data.length > 0 && Object.keys(data[0]).sort().toString() === ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"].sort().toString()) {
-            
-            this.elementArray = data.map(item => ({
-            id: item.attack_ID,
-            name: item.positions,
-            power: item.power,
-            price: item.price,
-            level: item.level_needed,
-            onSale: item.on_sale,
-            }));
+      .then(res => {
+          console.table(res);
+          if (res.status === 200) {
+            return res.json();
+          } else if (res.status === 400) {
+            return res.json();
           } else {
-            console.error('Invalid data format received from the API');
+            throw new Error(`Unexpected response status: ${res.status}`);
+          }
+        })
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            const expectedKeys = ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"];
+            if (Object.keys(data[0]).sort().toString() === expectedKeys.sort().toString()) {
+              this.elementArray = data.map(item => ({
+                id: item.attack_ID,
+                positions: item.positions,
+                power: item.power,
+                price: item.price,
+                level: item.level_needed,
+                onSale: item.on_sale,
+              }));
+            } else {
+              console.error('Invalid data format received from the API. Keys do not match expected format.');
+            }
+          } else {
+            console.warn('No available attacks.');
           }
         })
         .catch(error => {

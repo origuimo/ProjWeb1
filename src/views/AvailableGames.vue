@@ -9,27 +9,25 @@
     </div>
     <div class="player-list">
       <div class="player-container">
-        <div class="player" v-for="player in gameDataList" :key="player.id">
-          <div class="player-details">
-            <div class="player-info">
-              <img :src="player.image" alt="Player Image">
-              <div class="player-text">
-                <h3>{{ player.nom }}</h3>
-                <h3>{{ nom }}</h3>
-              </div>
-              <button @click="navigateToOption1(player)">Show more</button>
-            </div>
-          </div>
-        </div>
+        <player-details
+          v-for="player in gameDataList"
+          :key="player.id"
+          :player="player"
+          :nom="nom"
+          @showMore="navigateToOption1"
+        />
       </div>
     </div>
   </div>
 </template>
   
   <script>
-  import { mapState } from 'vuex';
-  import { mapGetters } from 'vuex';
+import PlayerDetails from '@/components/PlayerDetails.vue';
+import { mapState, mapGetters } from 'vuex';
   export default {
+    components: {
+      PlayerDetails,
+    },
     data() {
       return {
         title: 'Available Games',

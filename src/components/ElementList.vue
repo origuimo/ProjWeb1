@@ -91,7 +91,7 @@ export default {
     padding: 1vw;
   }
   
-  .element-list-container li.selected {
+  .element-list-container li:active {
     text-decoration: underline;
     text-decoration-color: white; /* Cambia el color del subrayado a blanco */
   }

@@ -1,24 +1,30 @@
 <template>
-  <div class="availableattacksview">
+  <section class="availableattacksview">
     <h1 class="title">{{ title }}</h1>
-    <div class="filters">
-      <label>Filter by:</label>
-      <select v-model="filterBy" @change="applyFilters" class="filters-value">
-        <option value="id">ID</option>
-        <option value="price">Price</option>
-        <option value="level">Level</option>
-      </select>
 
-      <label>Sort by:</label>
-      <select v-model="sortBy" @change="applyFilters" class="filters-order">
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-      </select>
-    </div>
-    <div class="element-list-container">
+    <form class="filters" @submit.prevent="applyFilters">
+      <fieldset class="custom-fieldset">
+        <legend>Filter and Sort</legend>
+
+        <label for="filterBy">Filter by:</label>
+        <select v-model="filterBy" id="filterBy">
+          <option value="id">ID</option>
+          <option value="price">Price</option>
+          <option value="level">Level</option>
+        </select>
+
+        <label for="sortBy">Sort by:</label>
+        <select v-model="sortBy" id="sortBy">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </fieldset>
+    </form>
+
+    <article class="element-list-container">
       <AvailableAttacksList :elements="filteredElements" />
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>
@@ -135,12 +141,11 @@ export default {
   margin-bottom: 0.5vw;
   font-size: 2vw;
 }
-
-.filters-value,
-.filters-order {
-  font-size: 1vw;
+.custom-fieldset {
+  border: 2px solid black; /* Cambia el color del borde del fieldset a negro */
+  padding: 10px; /* Añade un espacio interno para separar el contenido del borde */
+  border-radius: 8px; /* Añade bordes redondeados si es necesario */
 }
-
 .element-list-container {
   width: 60%;
   margin: 0.5vw;

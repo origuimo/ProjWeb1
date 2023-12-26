@@ -1,15 +1,16 @@
 <template>
-  <div class="attackdetailview">
+  <section v-if="attack" class="attackdetailview">
     <h1 class="attack-title">{{ attack.id }} Details</h1>
     <div class="info">
-        <p class="info-text">Attack ID: {{ attack.id }}</p>
-        <p class="info-text">Positions: {{ attack.positions }}</p>
-        <p class="info-text">Power: {{ attack.power }}</p>
-        <p class="info-text">Price: {{ attack.price }}</p>
-        <p class="info-text">Level: {{ attack.level }}</p>
+      <p class="info-text">Attack ID: {{ attack.id }}</p>
+      <p class="info-text">Positions: {{ attack.positions }}</p>
+      <p class="info-text">Power: {{ attack.power }}</p>
+      <p class="info-text">Price: {{ attack.price }}</p>
+      <p class="info-text">Level: {{ attack.level }}</p>
     </div>
     <button @click="buyAttack" class="buy-button">Buy Attack</button>
-  </div>
+  </section>
+  <p v-else>No attack details available.</p>
 </template>
 
 <script>

@@ -1,11 +1,11 @@
 <template>
-    <div class="element-list">
+    <section  class="element-list">
       <ul class="element-list-container">
         <li v-for="(element, index) in filteredElementArray" :key="index" @click="selectElement(element)" :class="{ 'selected': element === selectedElement }">
           {{ element.id }}
         </li>
       </ul>
-    </div>
+    </section >
   </template>
   
   <script>

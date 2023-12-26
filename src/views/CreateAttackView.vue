@@ -1,20 +1,20 @@
 <template>
-  <div class="createattackview">
+  <section class="createattackview">
     <h1>{{ title }}</h1>
-    <div class="options">
-      <div class="textos">
+    <label class="options">
+      <label class="textos">
         <div>Attack name:
-          <input type="text" v-model="name" plsaceholder="Enter name" required/>
+          <input type="text" v-model="name" placeholder="Enter name" required/>
         </div>
         <div>Position:
           <input type="text" v-model="position" placeholder="(numero,numero)" required/>
         </div>
-      </div>
-    </div>
-    <div>
+      </label>
+    </label>
+    <label>
       <button @click="saveAttack" class="save-button">Save Attack</button>
-    </div>
-  </div>
+    </label>
+  </section>
 </template>
 
 <script>

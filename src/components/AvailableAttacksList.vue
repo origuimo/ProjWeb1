@@ -1,11 +1,11 @@
 <template>
-  <div class="element-grid">
-    <div v-for="element in elements" :key="element.id" @click="redirectToAttackDetail(element)">
+  <section class="element-grid">
+    <article v-for="element in elements" :key="element.id" @click="redirectToAttackDetail(element)">
       <div class="element-item">
         {{ element.id }}
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>

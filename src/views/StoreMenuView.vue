@@ -1,17 +1,17 @@
 <template>
-  <div class="menuStore">
+  <section  class="menuStore">
     <div class="main-container">
-      <div class="side-menu">
+      <aside  class="side-menu">
         <h1 class="store-title">Store</h1>
         <button class="menu-button" @click="navigateToOption1">Create Attack</button>
         <button class="menu-button" @click="navigateToOption2">Sell Attack</button>
         <button class="menu-button" @click="navigateToOption3">Available Attacks</button>
-      </div>
+      </aside >
       <div class="content">
         <img src="/src/assets/images/shop.jpg" alt="Your Image" />
       </div>
     </div>
-  </div>
+  </section >
 </template>
 
 <script>

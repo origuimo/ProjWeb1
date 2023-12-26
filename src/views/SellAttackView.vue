@@ -1,21 +1,20 @@
 <template>
-  <div class="sellattackview">
+  <section class="sellattackview">
     <h1>{{ title }}</h1>
-    <div class="options">
-      <div class="element-list-container">Select attack:
+
+    <form @submit.prevent="sellAttack" class="form-container">
+      <label>
+        Select attack:
         <ElementList :elements="elementArray" :selectedElement="selectedElement" @elementSelected="onElementSelected" />
+      </label>
+
+      <div class="price-input">
+        <label for="price">Price:</label>
+        <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
       </div>
-      <div class="textos">
-        <div class="price-input">
-          <label for="price">Price:</label>
-          <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
-        </div>
-      </div>
-    </div>
-    <div>
-      <button @click="sellAttack" class="sell-button">Mark for sell</button>
-    </div>
-  </div>
+    </form>
+      <button type="submit" class="sell-button">Mark for sell</button>
+  </section>
 </template>
 
 <script>
@@ -102,22 +101,17 @@ h1 {
   color: transparent;
 }
 
-.options {
+.form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: black;
-  padding: 5vw;
+  padding: 2vw;
   width: 70%;
-  height: 40vh;
-  margin: 2vw auto;
+  height: auto; 
+  margin: 1vw auto;
   font-size: 2vw;
-  position: relative; 
-}
-
-.element-list-container {
-  height: 100%; /* Ocupa la mitad superior del recuadro negro */
 }
 .price-input {
   display: flex;
@@ -125,29 +119,32 @@ h1 {
   align-items: center;
   margin: 1vw 0;
 }
+
 .input-field {
   margin: 1vw 0;
   padding: 1vw;
   border-radius: 0.5vw;
   font-size: 1.5vw;
 }
+
 .sell-button {
-  width: 20vh; 
-    height: 8vh;  
-    padding: 1vw; 
-    font-size: 1em; 
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
-}
+  width: auto; 
+  height: auto;  
+  padding: 1vw; 
+  font-size: 1em; 
+  font-weight: bold;
+  position: relative;
+  background-image: url('@/assets/images/button.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1vw;
+  }
 </style>
+
 <style>
 body {
   overflow: hidden; 

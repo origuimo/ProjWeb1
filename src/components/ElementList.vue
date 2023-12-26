@@ -26,6 +26,7 @@ export default {
   methods: {
     selectElement(element) {
       console.log('selecionado', element)
+      this.selectedElement = element;
       this.$emit('elementSelected', element);
     },
     fetchData() {
@@ -85,15 +86,14 @@ export default {
     max-height: 20vh;
     overflow-y: auto;
   }
-  
   .element-list-container li {
-    cursor: pointer;
-    padding: 1vw;
-  }
-  
-  .element-list-container li:active {
-    text-decoration: underline;
-    text-decoration-color: white; /* Cambia el color del subrayado a blanco */
-  }
+  cursor: pointer;
+  padding: 1vw;
+}
+
+.element-list-container li.selected {
+  text-decoration: underline;
+  text-decoration-color: white; /* Cambia el color del subrayado a blanco */
+}
   </style>
   

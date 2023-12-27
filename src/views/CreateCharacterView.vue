@@ -24,13 +24,11 @@
           <img src="@/assets/images/orco.png" class="charsize" />
           <img src="@/assets/images/vikingo.png" class="charsize" />
         </div>
+        
+        <button class= button3 @click="createNewChar">CREATE</button>
+
       </section>
 
-      <section class="charfinal">
-        <img src="@/assets/images/hada.png" class="charfinalsize" />
-        <h2>NAMECHAR</h2>
-        <button class= button3 @click="createNewChar">CREATE</button>
-      </section>
     </div>
   </div>
 </template>

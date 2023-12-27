@@ -1,43 +1,98 @@
 <template>
-  <div class="attackdetailview">
-    <h1 class="attack-title">{{ attack.name }} Details</h1>
+  <section v-if="attack" class="attackdetailview">
+    <h1 class="attack-title">{{ attack.id }} Details</h1>
     <div class="info">
-        <p class="info-text">Attack ID: {{ attack.id }}</p>
-        <p class="info-text">Positions: {{ attack.positions }}</p>
-        <p class="info-text">Power: {{ attack.power }}</p>
-        <p class="info-text">Price: {{ attack.price }}</p>
-        <p class="info-text">Level: {{ attack.level }}</p>
+      <p class="info-text">Attack ID: {{ attack.id }}</p>
+      <p class="info-text">Positions: {{ attack.positions }}</p>
+      <p class="info-text">Power: {{ attack.power }}</p>
+      <p class="info-text">Price: {{ attack.price }}</p>
+      <p class="info-text">Level: {{ attack.level }}</p>
     </div>
     <button @click="buyAttack" class="buy-button">Buy Attack</button>
-  </div>
+  </section>
+  <p v-else>No attack details available.</p>
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+import Swal from 'sweetalert2';
+
 export default {
+  computed: {
+    ...mapState(['attackInfo']),
+    userCoins() {
+      return this.$store.getters.getCoins; // Accede al getter para obtener el valor de coins
+    },
+    userLevel() {
+      return this.$store.getters.getLevel; // Accede al getter para obtener el valor de level
+    },
+    getUserID() {
+      return this.$store.getters.getID; // Accede al getter para obtener el valor de id
+    },
+  },
   data() {
     return {
       attack: null
     };
   },
   created() {
-    // Obtén el ID del ataque desde la ruta
-    const attackId = this.$route.params.id;
-    this.attack = this.getElementDetailsById(attackId);
+    // Obtén el ataque almacenado en localStorage
+    const storedAttack = localStorage.getItem('attackItem');
+    // Parsea la cadena JSON y asigna el ataque a la propiedad local
+    this.attack = storedAttack ? JSON.parse(storedAttack) : null;
   },
   methods: {
-    getElementDetailsById(id) {
-      // Llamamos a la API para que nos devuelva la info de este ataque y manejamos la array para quedarnos solo con el que nos interesa
-      return {
-        id: id,
-        name: 'Demon incantation',
-        positions: `1,3`,
-        power: 4,
-        price: 20,
-        level: 6,
-      };
-    },
     buyAttack() {
+      //no tienes el dinero para comprarlo o el nivel
+      if(this.attack.price > this.userCoins && this.attack.level > this.userLevel) {
+          //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are weak and poor :(',
+        });
+      }
+      else if(this.attack.price > this.userCoins ) {
+          //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are too poor!',
+        });
+      }
+      else if( this.attack.level > this.userLevel) {
+          //mostar mensaje de error al comprar 
+          Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'You are too weak!',
+        });
+      }
+      else {
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.attack.id + '/buy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
+        },
+      })
+        .then(response => {
+          if (response.status === 200) {
+            //tienes que guardarlo en tu lista de ataques
+            this.$router.push('/menuStore');
+          } else if (response.status === 400) {
+            return response.json();
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error saving attack:', error);
+        });
       this.$router.push('/menuStore');
+      }
     },
   },
 };

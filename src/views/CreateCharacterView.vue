@@ -5,10 +5,10 @@
       <section id="infochar">
         <form>
           <label for="NAME">NAME</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" name="name" required v-model="name">
 
           <label for="PASSWORD">PASSWORD</label>
-          <input type="text" id="password" name="password" required>
+          <input type="text" id="password" name="password" required v-model="password">
 
           <label for="PASSWORD2">REPEAT PASSWORD</label>
           <input type="text" id="password2" name="password2" required>
@@ -38,13 +38,36 @@ export default {
   data() {
     return {
       title: 'Create Character',
+      name : '',
+      password : '',
     };
   },
   methods: {
   createNewChar() {
-    this.$router.push('/menulogin');
+    //convertimos la info en json
+      fetch('https://balandrau.salle.url.edu/i3/players', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          player_ID: this.name,
+          password: this.password,
+          img: '   ',
+        },),
+      })  
+      .then(response => {
+      if (response.status === 201) {
+        this.$router.push('/menulogin');
+      } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
+        return response.json();
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
+    },
   },
-}
 };
 </script>
 

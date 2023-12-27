@@ -1,21 +1,24 @@
 <template>
-  <div class="element-grid">
-    <div v-for="element in elements" :key="element.id" @click="redirectToAttackDetail(element.id)">
+  <section class="element-grid">
+    <article v-for="element in elements" :key="element.id" @click="redirectToAttackDetail(element)">
       <div class="element-item">
-        {{ element.name }}
+        {{ element.id }}
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>
+
+
 export default {
   props: {
     elements: Array,
   },
   methods: {
-    redirectToAttackDetail(id) {
-      this.$router.push(`/attacks/${id}`);
+    redirectToAttackDetail(element) {
+      localStorage.setItem('attackItem', JSON.stringify(element))
+      this.$router.push(`/attacks/${element.id}`);
     },
   },
 };

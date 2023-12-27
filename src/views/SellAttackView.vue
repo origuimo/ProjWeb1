@@ -1,21 +1,20 @@
 <template>
-  <div class="sellattackview">
+  <section class="sellattackview">
     <h1>{{ title }}</h1>
-    <div class="options">
-      <div class="element-list-container">Select attack:
+
+    <form @submit.prevent="sellAttack" class="form-container">
+      <label>
+        Select attack:
         <ElementList :elements="elementArray" :selectedElement="selectedElement" @elementSelected="onElementSelected" />
+      </label>
+
+      <div class="price-input">
+        <label for="price">Price:</label>
+        <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
       </div>
-      <div class="textos">
-        <div class="price-input">
-          <label for="price">Price:</label>
-          <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
-        </div>
-      </div>
-    </div>
-    <div>
-      <button @click="sellAttack" class="sell-button">Mark for sell</button>
-    </div>
-  </div>
+    </form>
+      <button type="submit" class="sell-button">Mark for sell</button>
+  </section>
 </template>
 
 <script>
@@ -28,24 +27,7 @@ export default {
   data() {
     return {
       title: 'Sell Attack',
-      elementArray: [
-        { id: 1, name: 'Attack 1' },
-        { id: 2, name: 'Attack 2' },
-        { id: 3, name: 'Attack 3' },
-        { id: 4, name: 'Attack 4' },
-        { id: 5, name: 'Attack 5' },
-        { id: 6, name: 'Attack 6' },
-        { id: 7, name: 'Attack 7' },
-        { id: 8, name: 'Attack 8' },
-        { id: 9, name: 'Attack 9' },
-        { id: 10, name: 'Attack 10' },
-        { id: 11, name: 'Attack 11' },
-        { id: 12, name: 'Attack 12' },
-        { id: 13, name: 'Attack 13' },
-        { id: 14, name: 'Attack 14' },
-        { id: 15, name: 'Attack 15' },
-        
-      ],
+      elementArray: [],
       selectedElement: null,
       price: 0,
     };
@@ -55,10 +37,39 @@ export default {
       this.selectedElement = element;
     },
     sellAttack() {
-      // Implementa la lógica para guardar los datos
-      console.log('Nombre ataque:', this.selectedElement);
-      console.log('Precio ataque:', this.price);
-      this.$router.push('/menuStore');
+      
+      // Convert price to a number
+      const numericPrice = Number(this.price);
+
+      console.log('price', localStorage.getItem('token') );
+
+      fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.selectedElement.id + '/sell', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : localStorage.getItem('token'), //pillar el token 
+          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
+        },
+        body: JSON.stringify({
+          price: numericPrice,
+        }),
+      }) 
+      .then(response => {
+      if (response.status === 200) {
+        console.log('Precio', this.price);
+        this.$router.push('/menuStore');
+      } else if (response.status === 400) {
+        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
+        return response.json();
+      } else if (response.status === 422) {
+        return response.json();
+      }else if (response.status === 403) {
+        //this atatck is already on sale
+        return response.json();
+      }else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    })
     },
   },
 };
@@ -90,22 +101,17 @@ h1 {
   color: transparent;
 }
 
-.options {
+.form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: black;
-  padding: 5vw;
+  padding: 2vw;
   width: 70%;
-  height: 40vh;
-  margin: 2vw auto;
+  height: auto; 
+  margin: 1vw auto;
   font-size: 2vw;
-  position: relative; 
-}
-
-.element-list-container {
-  height: 100%; /* Ocupa la mitad superior del recuadro negro */
 }
 .price-input {
   display: flex;
@@ -113,6 +119,7 @@ h1 {
   align-items: center;
   margin: 1vw 0;
 }
+
 .input-field {
   margin: 1vw 0;
   padding: 1vw;
@@ -120,24 +127,24 @@ h1 {
   font-size: 1.5vw;
 }
 
-
 .sell-button {
-  width: 20vh; 
-    height: 8vh;  
-    padding: 1vw; 
-    font-size: 1em; 
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
-}
+  width: auto; 
+  height: auto;  
+  padding: 1vw; 
+  font-size: 1em; 
+  font-weight: bold;
+  position: relative;
+  background-image: url('@/assets/images/button.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1vw;
+  }
 </style>
+
 <style>
 body {
   overflow: hidden; 

@@ -98,14 +98,13 @@ export default {
         size: parseInt(this.firstNumber),
         HP_max: parseInt(this.secondNumber),
       };
-      const token = this.getToken;
-      console.log("body", requestData);
+      console.log("token: ", localStorage.getItem('token'));
 
       fetch('https://balandrau.salle.url.edu/i3/arenas', {
         method: 'POST',
         headers: {
-          "Bearer": token, 
           'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
         },
         body: JSON.stringify(requestData),
       })

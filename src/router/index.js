@@ -65,6 +65,6 @@ const app = createApp(App);
 app.use(store);
 app.use(customRouter);  // Usa el enrutador personalizado
 
-app.mount('#app');
+//app.mount('#app');
 
 export default customRouter;

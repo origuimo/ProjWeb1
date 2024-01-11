@@ -1,29 +1,28 @@
 <template>
-    <div class="player">
-      <div class="player-details">
-        <div class="player-info">
-          <img :src="player.image" alt="Player Image" class="player-image">
-          <div class="player-text">
-            <h3>{{ player.nom }}</h3>
-          </div>
-          <button @click="navigateToOption1" class="show-more-btn">Show more</button>
+  <div class="player">
+    <div class="player-details">
+      <div class="player-info">
+        <div class="player-text">
+          <h3>{{ player.game_ID }}</h3>
         </div>
+        <button @click="navigateToOption1" class="show-more-btn">Show more</button>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
-  <script>
-  export default {
-    props: {
-      player: Object,
+<script>
+export default {
+  props: {
+    player: Object,
+  },
+  methods: {
+    navigateToOption1() {
+      this.$emit('show-more', this.player.game_ID);
     },
-    methods: {
-      navigateToOption1() {
-        this.$emit('show-more', this.player);
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   
   <style scoped>
   .player {

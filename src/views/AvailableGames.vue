@@ -1,17 +1,17 @@
 <template>
-  <div class="ranking">
+  <div class="available">
     <div class="title-section">
       <h1>{{ title }}</h1>
     </div>
     <div class="search-bar">
       <img src="@/assets/images/lupa.png" class="search-icon" alt="Search Icon">
-      <input type="text" placeholder="Search game...">
+      <input type="text" placeholder="Search game..." v-model="searchQuery">
     </div>
     <div class="player-list">
       <GameList
-        v-for="player in gameDataList"
-        :key="player.id"
-        :player="player"
+        v-for="game in filteredGames"
+        :key="game.game_ID"
+        :player="game"
         @show-more="navigateToOption1"
       />
     </div>
@@ -27,22 +27,32 @@
     data() {
       return {
         title: 'Available Games',
-        nom: 'Partida 1',
+        gameDataList: [
+        ],
       };
     },
+    computed: {
+      filteredGames() {
+        if (this.searchQuery) {
+          return this.gameDataList.filter(game =>
+            game.game_ID.includes(this.searchQuery)
+          );
+        }
+        return this.gameDataList;
+      },
+    },
+
 
     mounted(){
       this.callApi();
     },
     methods: {
-  navigateToOption1(player) {
-    this.$router.push({
-      name: 'infoGame',
-      props: {
-        playerData: player,
-      },
-    });
-  },
+      navigateToOption1(gameID) {
+      this.$router.push({
+        name: 'infoGame',
+      params: { gameID: gameID },
+      });
+    },
       async callApi() {
       try {
         const response = await       
@@ -56,8 +66,7 @@
 
         if (response.ok) {
           const data = await response.json();
-          console.log("ei", data);
-          this.$store.commit('setGameDataList', data);
+          this.gameDataList = data; 
         } else {
           throw new Error(`Failed with status: ${response.status}`);
         }
@@ -69,13 +78,13 @@
   };
   </script>
     
-    <style>
-    .ranking {
+    <style >
+    .available {
       color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-image: url('@/assets/images/fono2.jpg');
+      background-image: url('@/assets/images/postLluita.png');
       background-size: cover;
       background-position: center;
       height: 100vh;
@@ -83,13 +92,13 @@
     }
   
     .player-list {
-      max-height: 75vh;
+      max-height: 70%;
       overflow-y: auto;
       overflow-x: hidden;
     }
   
     .player-list::-webkit-scrollbar {
-      width: 12px;
+      width: 15px;
     }
   
     .player-list::-webkit-scrollbar-track {

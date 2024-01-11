@@ -98,8 +98,6 @@ export default {
         size: parseInt(this.firstNumber),
         HP_max: parseInt(this.secondNumber),
       };
-      console.log("token: ", localStorage.getItem('token'));
-
       fetch('https://balandrau.salle.url.edu/i3/arenas', {
         method: 'POST',
         headers: {
@@ -115,7 +113,14 @@ export default {
               title: 'Success',
               text: 'You have entered the game as Player1. Good luck!',
             });
-          } else {
+          } else if(res.status == 403) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'This game already exists',
+            });
+          }
+          else {
             throw new Error(`Failed with status: ${res.status}`);
           }
         })
@@ -127,7 +132,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .newgame {
   display: flex;
   flex-direction: column;
@@ -135,67 +140,16 @@ export default {
   text-align: center;
   color: white;
   height: 100vh;
-  background-image: url('@/assets/images/fondoCG.jpg');
+  background-image: url('@/assets/images/preparantLluita.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 20px; /* Añadido para mejorar la apariencia */
+  padding: 20px;
 }
 
-.title-section {
-  margin-top: 2%;
-}
-
-.main-section {
-  display: flex;
-  flex: 1; /* Toma todo el espacio disponible en el eje vertical */
-}
-
-.spacers {
-  height: 30px; /* Ajusta según sea necesario */
-}
-
-.left-section {
-  flex: 1;
-}
-
-.right-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cuadricula-container {
-  text-align: center;
-}
-
-.grid-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.input-container {
-  min-height: 70%;
-  background-color: black;
-  position: relative;
-  margin-top: 10%;
-  overflow: hidden;
-}
-
-.input-section {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%; /* Ajusta según sea necesario */
-}
-
-h1 {
-  font-size: 3.5em;
-  margin: 40px;
+.title-section h1 {
+  font-size: 3rem; /* Ajusta para un mejor tamaño en todas las pantallas */
+  margin-bottom: 20px;
   font-family: 'Press Start 2P', cursive;
   background: linear-gradient(180deg, orangered, yellow);
   -webkit-background-clip: text;
@@ -203,95 +157,52 @@ h1 {
   color: transparent;
 }
 
-.grid-square {
-  width: 50px;
-  height: 50px;
-  background-size: cover;
-  background-position: center;
-  background-image: url('@/assets/images/espases.avif');
-}
-
-.section1 {
+.main-section {
   display: flex;
-  align-items: center;
+  width: 100%; /* Ajusta para que tome todo el ancho */
+  justify-content: space-around; /* Espacia las secciones */
 }
 
-.section2 {
-  display: flex;
-  align-items: center;
-  margin-top: 5%;
+.left-section, .right-section {
+  flex: 1;
+  padding: 20px; /* Agrega padding para separar el contenido */
 }
 
-.section3 {
-  display: flex;
-  align-items: center;
-  margin-top: 5%;
+.input-container {
+  margin-top: 10%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  padding: 20px;
+  border-radius: 15px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para resaltar */
 }
 
-.text {
-  font-family: 'Press Start 2P', cursive;
-  color: white;
-  margin-right: 10px;
+.input-section, .button-section {
+  margin-top: 10px;
 }
 
-input {
+input, .buttonjoin1 {
+  width: 50%; /* Ajusta para que tomen todo el ancho disponible */
   padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-}
-
-.spacer {
-  height: 10px; /* Ajusta según sea necesario */
+  font-size: 1em;
+  margin-top: 10px; /* Espacio entre elementos */
 }
 
 .buttonjoin1 {
-  width: 40%; 
-    height: 8vh;  
-    width: 15vh;
-    padding: 10px; 
-    font-size: 1.2em; 
-    font-size: 1.5em;
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
+  background-image: url('@/assets/images/button.jpg');
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-h1 {
-  font-size: 3.5vw; /* Utiliza vw para que el tamaño sea relativo al ancho de la ventana */
-  margin: 2vw; /* Ajusta según sea necesario */
+
+.buttonjoin1:hover {
+  background-color: #0056b3;
 }
 
 .grid-square {
-  width: 5vw;
-  height: 5vw;
-}
-
-/* Diseño responsivo */
-@media screen and (max-width: 768px) {
-  .newgame {
-    padding: 10px;
-  }
-
-  .left-section, .right-section {
-    flex: 0;
-  }
-  .input-section {
-    width: 90%; /* Reducir el tamaño para pantallas pequeñas */
-  }
-}
-
-/* Otros ajustes */
-.text {
-  font-size: 1em; /* Ajusta según sea necesario */
-}
-
-.input-section {
-  margin-left: 5%;
+  background-size: cover;
+  background-position: center;
+  background-image: url('@/assets/images/espases.avif');
 }
 </style>

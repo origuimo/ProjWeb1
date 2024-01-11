@@ -42,7 +42,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .menu-container {
     flex-direction: column;
     height: 100vh;

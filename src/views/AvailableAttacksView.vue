@@ -1,7 +1,8 @@
 <template>
+    <!-- vista con todos los ataques que se pueden comprar -->
   <section class="availableattacksview">
     <h1 class="title">{{ title }}</h1>
-
+    <!-- form usado para filtrar los ataques-->
     <form class="filters" @submit.prevent="applyFilters">
       <fieldset class="custom-fieldset">
         <legend>Filter and Sort</legend>
@@ -20,7 +21,7 @@
         </select>
       </fieldset>
     </form>
-
+    <!-- componente con lista de los ataques filtrados -->
     <article class="element-list-container">
       <AvailableAttacksList :elements="filteredElements" />
     </article>
@@ -66,7 +67,6 @@ export default {
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
-          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
       })
       .then(res => {
@@ -142,7 +142,7 @@ export default {
   font-size: 2vw;
 }
 .custom-fieldset {
-  border: 2px solid black; /* Cambia el color del borde del fieldset a negro */
+  border: 2px solid black; /* Cambia el color del borde a negro */
   padding: 10px; /* Añade un espacio interno para separar el contenido del borde */
   border-radius: 8px; /* Añade bordes redondeados si es necesario */
 }

@@ -51,7 +51,7 @@ export default {
         // Ordenar alfabéticamente por ID
         elements.sort((a, b) => (this.sortBy === 'asc' ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id)));
       } else {
-        // Ordenar por otras propiedades numéricas
+        // Ordenar por precio o nivel
         elements.sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]));
       }
       return elements.map(element => ({ ...element }));
@@ -61,6 +61,7 @@ export default {
     onElementSelected(element) {
       this.selectedElement = element;
     },
+    //llamada a la API para cargar los ataques 
     fetchData() {
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
         method: 'GET',
@@ -71,8 +72,10 @@ export default {
       })
       .then(res => {
           console.table(res);
+          //todo bien
           if (res.status === 200) {
             return res.json();
+            //error
           } else if (res.status === 400) {
             return res.json();
           } else {
@@ -82,6 +85,7 @@ export default {
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
             const expectedKeys = ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"];
+            //Guardar los elementos de la array
             if (Object.keys(data[0]).sort().toString() === expectedKeys.sort().toString()) {
               this.elementArray = data.map(item => ({
                 id: item.attack_ID,
@@ -95,6 +99,7 @@ export default {
               console.error('Invalid data format received from the API. Keys do not match expected format.');
             }
           } else {
+            //No hay ataques disponibles
             console.warn('No available attacks.');
           }
         })

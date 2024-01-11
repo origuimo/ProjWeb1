@@ -57,7 +57,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .playerinfo {
     position: relative;
     text-align: center;

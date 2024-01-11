@@ -62,7 +62,7 @@
   };
   </script>
     
-  <style>
+  <style scoped>
   .phistory {
     color: white;
     display: flex;

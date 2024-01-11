@@ -25,7 +25,7 @@
   };
   </script>
   
-  <style>
+  <style >
 .container {
     display: flex;
     text-align: center;

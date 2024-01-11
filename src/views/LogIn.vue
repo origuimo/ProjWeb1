@@ -72,7 +72,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .createchar {
   position: relative;
   text-align: center;

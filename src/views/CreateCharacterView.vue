@@ -128,7 +128,11 @@ export default {
 
 .button3 {
   background-image: url('@/assets/images/button.jpg');
+  width: 100%; 
+  margin: 10px 0;
 }
+
+
 
 .charsize.selected {
   border: 2px solid orange; 
@@ -150,6 +154,9 @@ export default {
 
 #infochar form {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
 }
 
 #preview {

@@ -2,8 +2,9 @@
     <div class="delete">
       <h2>Are you sure you want to delete all the information related to this player?</h2>
       <div class="options2">
-        <button class=" button3" @click="deletePlayer">Yes</button>
-        <button   class=" button3" @click="navigateToOption2">No</button>
+        <button class=" buttondel" @click="deletePlayer">Yes</button>
+        <div style="margin-left: 10px;"></div> 
+        <button   class=" buttondel" @click="navigateToOption2">No</button>
       </div>
     </div>
   </template>
@@ -62,6 +63,12 @@
     display: flex;
     margin-top: 5%;
     flex-direction: row;
+  }
+
+  .buttondel {
+  background-image: url('@/assets/images/button.jpg');
+  flex: 1; 
+  margin: 10px; 
   }
   
  

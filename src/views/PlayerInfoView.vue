@@ -11,8 +11,8 @@
           
           </div>
           <div class="buttonsline">
-            <button class= button3 @click="deleteChar">DELETE</button>
-            <button class= button3 @click="stats">STATS</button>
+            <button class= buttoninfo @click="deleteChar">DELETE</button>
+            <button class= buttoninfo @click="stats">STATS</button>
           </div>"
         
         </section>
@@ -115,6 +115,11 @@
     font-weight: bold;
     margin-bottom: 10px;
   }
+  .buttoninfo {
+  background-image: url('@/assets/images/button.jpg');
+  width: 100%; 
+  margin: 10px 0;
+}
 
   .charsize {
   width: 10%; 

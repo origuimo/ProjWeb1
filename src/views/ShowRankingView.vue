@@ -1,63 +1,57 @@
 <template>
-    <div class="ranking">
-      <h1>{{ title }}</h1>
-      <div class="search-bar">
-        <img src="@/assets/images/lupa.png" class="search-icon" alt="Search Icon">
-        <input type="text" placeholder="Search player...">
-      </div>
-      <div class="player-list">
-        <div class="player" v-for="player in players" :key="player.id">
-          <div class="player-details">
-
-            <div class="player-info">
-              <h3>{{ player.name }}</h3>
-              <p>Level: {{ player.level }}</p>
-              <p>Experience: {{ player.experience }}</p>
-              <p>Coins: {{ player.coins }}</p>
-              <button class="small-button" @click="showmore"> Show more </button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="ranking">
+    <h1 class="ranking-title">{{ title }}</h1>
+    <div class="player-list">
+      <player-item v-for="player in players" :key="player.player_ID" :player="player" />
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
-  export default {
-    data() {
-      return {
-        title: 'Show Ranking',
-        players: [
-          {
-            id: 1,
-            name: 'Player 1',
-            level: 10,
-            experience: 500,
-            coins: 100
-          },
-          {
-            id: 2,
-            name: 'Player 2',
-            level: 3,
-            experience: 50,
-            coins: 76
-          },
-          {
-            id: 3,
-            name: 'Player 3',
-            level: 5,
-            experience: 230,
-            coins: 256
-          },
-        ],
-      };
-    }, methods:{
-     showmore() {
-      this.$router.push('/phistory');
-     }
+import PlayerItem from '@/components/PlayerItem.vue';
+
+export default {
+  components: {
+    PlayerItem, 
   },
-  };
-  </script>
+  data() {
+    return {
+      title: 'Player Ranking',
+      players: [],
+    };
+  },
+  methods: {
+    showRanking() {
+      fetch('https://balandrau.salle.url.edu/i3/players', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error(`Error fetching player data. Status: ${response.status}`);
+          }
+        })
+        .then(players => {
+          this.players = players.sort((a, b) => b.level - a.level);
+        })
+        .catch(error => {
+          console.error('Error fetching player data:', error);
+        });
+    },
+    showmore() {
+      this.$router.push('/phistory');
+    },
+  },
+  mounted() {
+    this.showRanking();
+  },
+};
+</script>
     
   <style>
   .ranking {
@@ -98,15 +92,12 @@
     align-items: center;
     padding: 10px;
     width: 100%;
-    
-
   }  
   
   .player-info {
     display: flex;
     align-items: center;
     width: 100%;
-   
 
   }
   
@@ -118,8 +109,12 @@
     background-color: black;
     width: 400px;
   }
-  
-
+  .player-list {
+    max-height: 700px;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow-y: auto;
+  }
   
   </style>
   

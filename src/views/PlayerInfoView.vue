@@ -4,35 +4,21 @@
       <div class="content">
         <section id="infochar">
           <div class="info">
-            <span>Name: TuNombre</span>
-            <span>Level: 10</span>
-            <span>Experience: 500</span>
-            <span>  <img src="@/assets/images/dinero.png" class="charsize" />: 45</span>
+          <span>Name: {{ playerInfo.player_ID }}</span>
+          <span>Level: {{ playerInfo.level }}</span>
+          <span>Experience: {{ playerInfo.xp }}</span>
+          <span><img src="@/assets/images/dinero.png" class="charsize" />: {{ playerInfo.coins }}</span>
           
-          </div>
-  
-          <h2>ATTACKS</h2>
-  
-          <div class="characters">
-            <img src="@/assets/images/viento.png" class="charsize" />
-            <img src="@/assets/images/agua.png" class="charsize" />
-            <img src="@/assets/images/fuego.png" class="charsize" />
-            <img src="@/assets/images/fumar.png" class="charsize" />
-            <img src="@/assets/images/productos-quimicos.png" class="charsize" />
           </div>
           <div class="buttonsline">
             <button class= button3 @click="deleteChar">DELETE</button>
-            <button class= button3 @click="stats">STATISTICS</button>
+            <button class= button3 @click="stats">STATS</button>
           </div>"
         
         </section>
   
         <section class="charequippedfinal">
-          <img src="@/assets/images/hada.png" class="charfinalsize2" />
-          <h2>NAMECHAR</h2>
-          <img src="@/assets/images/viento.png" class="charsize" />
-          <img src="@/assets/images/productos-quimicos.png" class="charsize" />
-          <img src="@/assets/images/fuego.png" class="charsize" />
+          <img :src="playerInfo.img" class="charfinalsize2" />
        
         </section>
       </div>
@@ -44,16 +30,48 @@
     data() {
       return {
         title: 'Player Info',
+        playerInfo: {
+        player_ID: '',
+        img: '',
+        xp: 0,
+        level: 0,
+        coins: 0,
+      },
       };
     },
     methods: {
       deleteChar() {
         this.$router.push('/delete');
       },
+      
       stats(){
         this.$router.push('/phistory');
-      }
+      },
+
+      fetchPlayerInfo() {
+      
+        const playerId = localStorage.getItem('playerId');
+        console.log('Player ID:', playerId);
+      fetch(`https://balandrau.salle.url.edu/i3//players/${playerId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer' : localStorage.getItem('token'), 
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.playerInfo = data;
+        })
+          .catch(error => console.error('Error fetching player info:', error));
+      },
     },
+
+    mounted() {
+    
+      this.fetchPlayerInfo();
+    },
+
   };
   </script>
   

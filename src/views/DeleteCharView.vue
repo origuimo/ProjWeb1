@@ -2,7 +2,7 @@
     <div class="delete">
       <h2>Are you sure you want to delete all the information related to this player?</h2>
       <div class="options2">
-        <button class=" button3" @click="navigateToOption1">Yes</button>
+        <button class=" button3" @click="deletePlayer">Yes</button>
         <button   class=" button3" @click="navigateToOption2">No</button>
       </div>
     </div>
@@ -16,8 +16,26 @@
       };
     },
     methods: {
-      navigateToOption1() {
-        this.$router.push('/menu');
+      deletePlayer() {
+      
+      fetch(`https://balandrau.salle.url.edu/i3/players`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            this.$router.push('/menulogin');
+          } else {
+            console.error('Error deleting player:', response.status);
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting player:', error);
+        });
+
       },
       navigateToOption2() {
         this.$router.push('/infochar');

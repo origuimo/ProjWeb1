@@ -5,30 +5,30 @@
         </div>
       <div class="main-section">
         <div class="left-section">
-          <div class="info-container">
-            <div class="info-section">
-              <div class="info-text">Files i columnes:&nbsp;&nbsp;</div>
-              <div class="info-value">{{ primerNumero }}</div>
-            </div>
-            <div class="info-section">
-              <div class="info-text">HP del jugador:&nbsp;&nbsp;&nbsp;&nbsp;</div>
-              <div class="info-value">{{ segundoNumero }}</div>
-            </div>
-            <div class="info-section">
-              <div class="info-text">Nom de la partida:&nbsp;</div>
-              <div class="info-value">{{ nom }}</div>
+          <div class="info-container1">
+            <div v-if="gameDetails" class="info-container">
+              <div class="info-section">
+                <div class="info-text">Files i columnes:&nbsp;&nbsp;</div>
+                <div class="info-value">{{ gameDetails.size }}</div>
+              </div>
+              <div class="info-section">
+                <div class="info-text">HP del jugador:&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div class="info-value">{{ gameDetails.HP_max }}</div>
+              </div>
+              <div class="info-section">
+                <div class="info-text">Nom de la partida:&nbsp;</div>
+                <div class="info-value">{{ gameDetails.game_ID }}</div>
+              </div>
+              <button class="buttonjoin" @click="navigateToOption1">Join</button>
             </div>
           </div>
         </div>
-        <div class="cuadricula-container">
+        <!--<div class="cuadricula-container">
           <div class="grid-container" :style="{ gridTemplateColumns: `repeat(${parseInt(primerNumero)}, 1fr)`, gridGap: dynamicGridGap, width: gridWidth + 'px' }">
             <div v-for="n in Number(primerNumero) * Number(primerNumero)" :key="n" class="grid-square"></div>
 
           </div>
-        </div>
-      </div>
-      <div class="button-section">
-            <button class="buttonjoin" @click="navigateToOption1">Join</button>
+        </div>-->
       </div>
     </div>
   </template>
@@ -40,14 +40,15 @@
     data() {
       return {
         title: 'Info Game',
-        primerNumero: 4,
-        segundoNumero: 14,
-        nom: 'Partida',
+        gameDetails: null,
       };
     },
-    props: ['playerData'],
-  mounted() {
-    console.log('Props en InfoGame:', this.primerNumero, this.segundoNumero, this.nom);
+    async mounted() {
+    const gameID = this.$route.params.gameID;
+    console.log("Game ID:", gameID);
+    if (gameID) {
+      await this.fetchGameDetails(gameID);
+    }
   },
     computed: {
 
@@ -66,112 +67,106 @@
       },
     },
     methods: {
-    navigateToOption1() {
-      this.$router.push('/gameview');
+      async fetchGameDetails(gameID) {
+      try {
+        const response = await fetch(`https://balandrau.salle.url.edu/i3/arenas/${gameID}`, {
+          method: 'GET',
+          headers: {
+            "Bearer": localStorage.getItem('token'), 
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          this.gameDetails = await response.json();
+          console.log("hola");
+        } else {
+          console.error(`Failed to fetch game details with status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching game details:', error.message);
+      }
     },
+    navigateToOption1() {
+    if (this.gameDetails && this.gameDetails.size) {
+      this.$router.push({
+        name: 'gameView',
+        params: { files: this.gameDetails.size }
+      });
+    } else {
+      console.error("Game details are not available");
+    }
+  },
   },
   };
   </script>
   
-  <style>
-  .show-game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: white;
-    height: 100vh;
-    background-image: url('@/assets/images/blood.jfif');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 20px;
-  }
-  
-  .title-section {
-    margin-top: 2%;
-  }
-  
-  .main-section {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .left-section {
-    width: 49%;
-  }
-  
-  .info-container {
-    margin-left: 34%;
-    margin-top: 28%;
-  }
-  
-  .cuadricula-container {
-    align-items: center;
-    width: 47%;
-    margin-left: 20%;
-    margin-top: 10%;
-  }
-  
-  .grid-title {
-    text-align: center;
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-gap: 5px;
-  }
-  
-  .grid-square {
-    width: 50px;
-    height: 50px;
-    background-size: cover;
-    background-position: center;
-    background-image: url('@/assets/images/espases.avif');
-  }
-  
-  .info-section {
-    display: flex;
-    align-items: center;
-    margin-top: 5%;
-  }
-  
-  .info-text {
-    font-family: 'Press Start 2P', cursive;
-    color: white;
-    margin-right: 10px;
-  }
-  
-  .info-value {
-    font-family: 'Press Start 2P', cursive;
-    color: yellow; /* Color rojo para el texto */
-    font-size: 1.3em; /* Tamaño de texto más grande */
-  }
+  <style scoped>
+.show-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  height: 100vh;
+  background-image: url('@/assets/images/Lluita.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+}
 
-  .button-section {
-  display: grid;
-  justify-content: center;
-  margin-bottom: 5%;
+
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%; /* Reducción del ancho para mejorar la distribución */
+  margin-top: 10%;
+}
+
+.info-container1 {
+  background: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente para mejorar la legibilidad */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra para resaltar el contenedor */
+  width: 100%; /* Ajuste para que tome todo el ancho del contenedor principal */
+}
+
+.info-section {
+  margin: 10px 0;
+}
+
+.info-text, .info-value {
+  font-family: 'Arial', sans-serif; /* Cambio a una fuente más legible */
+  color: white;
+  margin-right: 10px;
+}
+
+.info-value {
+  font-weight: bold;
+  color: #FFD700; /* Color dorado para resaltar los valores */
+}
+
+.button-section {
+  margin-top: 20px;
 }
 
 .buttonjoin {
-  width: 40%; 
-    height: 8vh;  
-    width: 10vh;
-    padding: 10px; 
-    font-size: 1.2em; 
-    font-size: 1.5em;
-    font-weight: bold;
-    position: relative;
-    background-image: url('@/assets/images/button.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5%;
+  background-color: #007bff;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: fit-content;
 }
+
+.buttonjoin:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* Efecto de crecimiento al pasar el ratón */
+}
+
   </style>
   

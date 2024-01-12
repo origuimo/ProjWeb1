@@ -31,10 +31,13 @@ const routes = [
   { path: '/newgame', component: NG },
     { path: '/createchar', component: CC },
     { path: '/availablegames', component: AG },
-    { path: '/gameview', component: GV },
-
+    { path: '/gameView/:files', 
+      name: 'gameView',
+      component: GV,
+      props: true,
+    },
     {
-      path: '/infoGame',
+      path: '/infoGame/:gameID',
       name: 'infoGame',
       component: IG,
       props: true,
@@ -65,6 +68,6 @@ const app = createApp(App);
 app.use(store);
 app.use(customRouter);  // Usa el enrutador personalizado
 
-app.mount('#app');
+//app.mount('#app');
 
 export default customRouter;

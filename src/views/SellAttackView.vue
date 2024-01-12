@@ -1,13 +1,15 @@
 <template>
+  <!-- Vista para poner ataque a la venta -->
   <section class="sellattackview">
     <h1>{{ title }}</h1>
-
+    <!-- Form que evita que si no se han rellenado todos los campos se pueda poner a la venta el ataque -->
     <form @submit.prevent="sellAttack" class="form-container">
+      <!-- Lisat de los ataques del usuario -->
       <label>
         Select attack:
         <ElementList :elements="elementArray" :selectedElement="selectedElement" @elementSelected="onElementSelected" />
       </label>
-
+      <!-- Campo para introducir el precio del ataque -->
       <div class="price-input">
         <label for="price">Price:</label>
         <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
@@ -37,18 +39,13 @@ export default {
       this.selectedElement = element;
     },
     sellAttack() {
-      
       // Convert price to a number
       const numericPrice = Number(this.price);
-
-      console.log('price', localStorage.getItem('token') );
-
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.selectedElement.id + '/sell', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
-          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
         body: JSON.stringify({
           price: numericPrice,
@@ -56,13 +53,8 @@ export default {
       }) 
       .then(response => {
       if (response.status === 200) {
-        console.log('Precio', this.price);
+        // Todo bien vuelves al menu de la tienda
         this.$router.push('/menuStore');
-      } else if (response.status === 400) {
-        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
-        return response.json();
-      } else if (response.status === 422) {
-        return response.json();
       }else if (response.status === 403) {
         //this atatck is already on sale
         return response.json();

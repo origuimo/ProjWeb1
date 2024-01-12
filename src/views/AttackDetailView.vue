@@ -1,4 +1,5 @@
 <template>
+  <!-- vista con la informacion del ataque seleccionado -->
   <section v-if="attack" class="attackdetailview">
     <h1 class="attack-title">{{ attack.id }} Details</h1>
     <div class="info">
@@ -10,11 +11,12 @@
     </div>
     <button @click="buyAttack" class="buy-button">Buy Attack</button>
   </section>
+  <!-- Mensaje mostrado si no hay detalles de ataque disponibles -->
   <p v-else>No attack details available.</p>
 </template>
 
 <script>
-
+// Importa bibliotecas necesarias
 import { mapState } from 'vuex'
 import Swal from 'sweetalert2';
 
@@ -33,7 +35,7 @@ export default {
   },
   data() {
     return {
-      attack: null
+      attack: null //Ataque seleccionado
     };
   },
   created() {
@@ -44,7 +46,7 @@ export default {
   },
   methods: {
     buyAttack() {
-      //no tienes el dinero para comprarlo o el nivel
+      // Verifica si el usuario no tiene suficientes monedas o nivel para comprar el ataque
       if(this.attack.price > this.userCoins && this.attack.level > this.userLevel) {
           //mostar mensaje de error al comprar 
           Swal.fire({
@@ -53,6 +55,7 @@ export default {
           text: 'You are weak and poor :(',
         });
       }
+      // Verifica si el usuario no tiene suficientes monedas
       else if(this.attack.price > this.userCoins ) {
           //mostar mensaje de error al comprar 
           Swal.fire({
@@ -61,6 +64,7 @@ export default {
           text: 'You are too poor!',
         });
       }
+      // Verifica si el usuario no tiene suficiente nivel
       else if( this.attack.level > this.userLevel) {
           //mostar mensaje de error al comprar 
           Swal.fire({
@@ -69,18 +73,18 @@ export default {
           text: 'You are too weak!',
         });
       }
+      // Si todo está bien, intenta comprar el ataque
       else {
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks/' + this.attack.id + '/buy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Bearer' : localStorage.getItem('token'), //pillar el token 
-          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
+          'Bearer' : localStorage.getItem('token'),// Obtiene el token almacenado en localStorage 
         },
       })
         .then(response => {
           if (response.status === 200) {
-            //tienes que guardarlo en tu lista de ataques
+            // Redirige a la página del menú de la tienda después de la compra exitosa
             this.$router.push('/menuStore');
           } else if (response.status === 400) {
             return response.json();
@@ -113,7 +117,6 @@ export default {
   grid-template-rows: min-content 1fr;
   justify-items: center;
 }
-
 .attack-title {
   font-size: 5vw;
   margin: 2vw;
@@ -124,7 +127,6 @@ export default {
   color: transparent;
   text-align: center;
 }
-
 .info {
   display: flex;
   flex-direction: column;
@@ -139,9 +141,6 @@ export default {
   font-size: 1vw;
   overflow: auto;
 }
-
-
-
 .buy-button {
   padding: 2vw 4vw;
   font-size: 1.5vw;

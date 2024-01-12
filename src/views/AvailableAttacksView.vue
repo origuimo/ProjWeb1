@@ -1,7 +1,8 @@
 <template>
+    <!-- vista con todos los ataques que se pueden comprar -->
   <section class="availableattacksview">
     <h1 class="title">{{ title }}</h1>
-
+    <!-- form usado para filtrar los ataques-->
     <form class="filters" @submit.prevent="applyFilters">
       <fieldset class="custom-fieldset">
         <legend>Filter and Sort</legend>
@@ -20,7 +21,7 @@
         </select>
       </fieldset>
     </form>
-
+    <!-- componente con lista de los ataques filtrados -->
     <article class="element-list-container">
       <AvailableAttacksList :elements="filteredElements" />
     </article>
@@ -50,7 +51,7 @@ export default {
         // Ordenar alfabéticamente por ID
         elements.sort((a, b) => (this.sortBy === 'asc' ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id)));
       } else {
-        // Ordenar por otras propiedades numéricas
+        // Ordenar por precio o nivel
         elements.sort((a, b) => (this.sortBy === 'asc' ? a[this.filterBy] - b[this.filterBy] : b[this.filterBy] - a[this.filterBy]));
       }
       return elements.map(element => ({ ...element }));
@@ -60,19 +61,21 @@ export default {
     onElementSelected(element) {
       this.selectedElement = element;
     },
+    //llamada a la API para cargar los ataques 
     fetchData() {
       fetch('https://balandrau.salle.url.edu/i3/shop/attacks', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Bearer' : localStorage.getItem('token'), //pillar el token 
-          //'Bearer' : '0dd3d79c-df5f-4944-b53c-3b3e12afab4d'
         },
       })
       .then(res => {
           console.table(res);
+          //todo bien
           if (res.status === 200) {
             return res.json();
+            //error
           } else if (res.status === 400) {
             return res.json();
           } else {
@@ -82,6 +85,7 @@ export default {
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
             const expectedKeys = ["attack_ID", "positions", "power", "price", "level_needed", "on_sale"];
+            //Guardar los elementos de la array
             if (Object.keys(data[0]).sort().toString() === expectedKeys.sort().toString()) {
               this.elementArray = data.map(item => ({
                 id: item.attack_ID,
@@ -95,6 +99,7 @@ export default {
               console.error('Invalid data format received from the API. Keys do not match expected format.');
             }
           } else {
+            //No hay ataques disponibles
             console.warn('No available attacks.');
           }
         })
@@ -142,7 +147,7 @@ export default {
   font-size: 2vw;
 }
 .custom-fieldset {
-  border: 2px solid black; /* Cambia el color del borde del fieldset a negro */
+  border: 2px solid black; /* Cambia el color del borde a negro */
   padding: 10px; /* Añade un espacio interno para separar el contenido del borde */
   border-radius: 8px; /* Añade bordes redondeados si es necesario */
 }

@@ -1,7 +1,9 @@
 <template>
+   <!-- Vista de creacion del jugador -->
   <div class="createchar">
     <h1 class="createchartitle">{{ title }}</h1>
     <div class="content">
+       <!-- Vista introduccion datos del jugador a crear -->
       <section id="infochar">
         <form>
           <label for="NAME">NAME</label>
@@ -15,7 +17,7 @@
         </form>
 
         <h4>CHARACTER</h4>
-
+         <!-- VCargamos las diferentes imagenes a seleccionar -->
         <div class="characters">
           <img src="src/assets/images/dracula.png" class="charsize"  @click="selectImage('src/assets/images/dracula.png')" :class="{ selected: selectedImage === 'src/assets/images/dracula.png' }" />
           <img src="@/assets/images/dragon.png" class="charsize"   @click="selectImage('src/assets/images/dragon.png')" :class="{ selected: selectedImage === 'src/assets/images/dragon.png' }" />
@@ -25,7 +27,7 @@
           <img src="@/assets/images/vikingo.png" class="charsize"   @click="selectImage('src/assets/images/vikingo.png')" :class="{ selected: selectedImage === 'src/assets/images/vikingo.png' }" />
         </div>
       </section>
-
+      <!-- Vista previa imagen seleccionada y nombre del jugador -->
       <section id="preview">
         <img :src="selectedImage" v-if="selectedImage" class="charfinalsize" />
         <p v-if="name">Name: {{ name }}</p>
@@ -40,6 +42,7 @@ export default {
   data() {
     return {
       title: 'Create Character',
+      //Estructura de datos a obtener de la pantalla i enviar a la api
       name: '',
       password: '',
       passwordRepeat:'',
@@ -47,32 +50,36 @@ export default {
     };
   },
   methods: {
+    //Asignamos path imagen seleccionada 
     selectImage(imagePath) {
       this.selectedImage = imagePath;
     },
+    //Comprobamos que se ha seleccionado una imagen 
     createNewChar() {
       if (!this.selectedImage) {
         console.error('No has seleccionat cap imatge!');
         return;
       }
+      //Comprovamos que la contrasenya tiene menos de 21 caràcteres
       if (this.password.length > 21) {
         console.error('La contrasenya no es valida');
         return;
       }
+      //Comprobamos que el nombre tiene menos de 21 caracteres
       if (this.name.length > 21) {
         console.error('El nom no es valid');
         return;
       }
-
+      //Comprovamos que las dos contrasenyas coinciden
       if (this.password !== this.passwordRepeat) {
         console.error('Les contrasenyes no coincideixen');
         return;
       }
-      
+      //Cambiamos la forma del path de la imagen para que esta se pueda mostrar i enviar correctamente
       const imagePath = this.selectedImage.replace(/^@\/assets\//, '/');
 
     
-
+      //Hacemos la llamada POST  a la API para así crear el personaje
       fetch('https://balandrau.salle.url.edu/i3/players', {
         method: 'POST',
         headers: {

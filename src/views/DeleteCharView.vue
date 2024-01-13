@@ -1,4 +1,5 @@
 <template>
+  <!-- Vista pantalla que da la opcion de eliminar al jugador  -->
     <div class="delete">
       <h2>Are you sure you want to delete all the information related to this player?</h2>
       <div class="options2">
@@ -18,7 +19,7 @@
     },
     methods: {
       deletePlayer() {
-      
+      //Llamada DELETE a la API
       fetch(`https://balandrau.salle.url.edu/i3/players`, {
         method: 'DELETE',
         headers: {

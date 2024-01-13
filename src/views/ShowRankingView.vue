@@ -1,4 +1,5 @@
 <template>
+  <!-- Ranking de jugadores  -->
   <div class="ranking">
     <h1 class="ranking-title">{{ title }}</h1>
     <div class="player-list">
@@ -37,6 +38,7 @@ export default {
           }
         })
         .then(players => {
+          //Ordenamos los jugadores segun su nivel para hacer el ranking
           this.players = players.sort((a, b) => b.level - a.level);
         })
         .catch(error => {

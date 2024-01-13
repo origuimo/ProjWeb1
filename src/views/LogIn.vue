@@ -58,7 +58,6 @@ export default {
           }
         })
         .then(data => {
-          //VIC: ESTO LO QUITAS CUANDO ARREGLES LO DEL TOKEN :)
           localStorage.setItem('token', data.token);
           localStorage.setItem('playerId', data.player_ID);
           this.$store.commit('InfoJugador', data);

@@ -1,4 +1,5 @@
 <template>
+   <!-- Componente que representa un jugador para mostrar en la lista de jugadores del ranking -->
   <div class="player-item">
    <!-- <img :src="player.img" alt="Player Image" class="player-image" /> -->
     <div class="player-info">

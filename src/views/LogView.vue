@@ -1,9 +1,16 @@
 <template>
+  <!-- Log del juego -->
     <div class="Log">
       <h1 class="logTitle">Log</h1>
       <div class="logContainer">
-        <div v-for="(entry, index) in logEntries" :key="index" class="logText">{{ entry }}</div>
+        <!-- Estructura entrada log -->
+        <div v-for="(entry, index) in logEntries" :key="index" class="logText">
+        <p>Date/Time: {{ entry.date_time }}</p>
+        <p>Player ID: {{ entry.playerID }}</p>
+        <p>Description: {{ entry.description }}</p>
+        <hr />
       </div>
+    </div>
       <button @click="goBack" class="backButton">Back</button>
     </div>
   </template>
@@ -12,21 +19,34 @@
   export default {
     data() {
       return {
-        logEntries: [
-          'Log of Player1 and Player2 combat:',
-          '-----FIGHT-----',
-          'Player1: Moves 3 tiles up',
-          'Player2: Moves 1 tiles down',
-          'Player2: Uses Super Attack and  hits Player2.',
-          'Player2 loses 3 points, has 4 left',
-          'Player1: Uses Fireball and hits Player1',
-          'Player1 loses 10 points, has 0 left.',
-          '-----END OF COMBAT-----',
-          'Player1 dies, Player2 wins this combat!'
-        ]
+        logEntries: [],
       };
     },
     methods: {
+      fetchDataLogs(){
+        //Obtenim id del joc
+        const gameId = this.$route.params.gameID;
+        fetch(`https://balandrau.salle.url.edu/i3/${gameId}/logs`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Bearer': localStorage.getItem('token'),
+        },
+      })
+      .then(response => {
+        //Control errors
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.logEntries = data;
+        })
+        .catch(error => {
+          console.error('Error fetching logs:', error);
+        });
+      },
     goBack() {
       this.$router.push('/phistory');
     },

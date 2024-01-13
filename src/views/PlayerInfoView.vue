@@ -1,4 +1,5 @@
 <template>
+  <!-- Vista para mostrar la informacion del jugador -->
     <div class="playerinfo">
       <h1>{{ title }}</h1>
       <div class="content">
@@ -30,6 +31,7 @@
     data() {
       return {
         title: 'Player Info',
+        //Datos del jugador a obtener de la api i mostrar por pantalla
         playerInfo: {
         player_ID: '',
         img: '',
@@ -49,13 +51,14 @@
       },
 
       fetchPlayerInfo() {
-      
+        //Obtenermos la id del jugador que al hacer login hemos guardado 
         const playerId = localStorage.getItem('playerId');
-        console.log('Player ID:', playerId);
+       
       fetch(`https://balandrau.salle.url.edu/i3//players/${playerId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          //Enviamos el token para validar la llamda a la api
           'Bearer' : localStorage.getItem('token'), 
         },
       })

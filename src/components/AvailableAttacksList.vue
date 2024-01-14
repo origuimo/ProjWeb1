@@ -57,6 +57,6 @@ export default {
 }
 
 .element-item:hover {
-  background-color: pink;/* Cambia el color de fondo al pasar el ratón por encima */
+  background-color: rgb(218, 127, 16);/* Cambia el color de fondo al pasar el ratón por encima */
 }
 </style>

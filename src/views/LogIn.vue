@@ -7,7 +7,7 @@
             <label for="NAME">NAME</label>
             <input type="text" id="name" name="name" required v-model="name">
             <label for="PASSWORD">PASSWORD</label>
-            <input type="text" id="password" name="password" required v-model="password">
+            <input type="password" id="password" name="password" required v-model="password">
             <button class= button3 @click="logIn">LOG IN</button>
           </form>
         </section>
@@ -58,10 +58,13 @@ export default {
           }
         })
         .then(data => {
-          //VIC: ESTO LO QUITAS CUANDO ARREGLES LO DEL TOKEN :)
           localStorage.setItem('token', data.token);
+          localStorage.setItem('playerId', data.player_ID);
           this.$store.commit('InfoJugador', data);
           this.$router.push('/menu');
+     
+                
+       
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

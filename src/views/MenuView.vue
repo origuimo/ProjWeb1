@@ -1,4 +1,5 @@
 <template>
+  <!-- Vista del menu principal -->
     <div class="menu-container">
       <div class="titol">
       <h1>{{ title }}</h1>
@@ -23,6 +24,7 @@
       };
     },
     methods: {
+      //Metodos para dirigir el juego en funcion del boton del menú seleccionado
       navigateToOption1() {
         this.$router.push('/newgame');
       },

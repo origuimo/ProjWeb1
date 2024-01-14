@@ -1,4 +1,5 @@
 <template>
+  <!-- Vista de creacion del ataque -->
   <section class="createattackview">
     <h1>{{ title }}</h1>
     <label class="options">
@@ -30,22 +31,23 @@ export default {
     };
   },
   methods: {
+    // Comprobar formato posicion
     validatePosition() {
       const positionRegex = /^\([0-9],[0-9]\)$/;
       return positionRegex.test(this.position);
     },
-
+    // Validar que el nombre no sobrepase los 21 characters 
     validateNameMax() {
       const nameLength = this.name.length;
       return nameLength < 21;
     },
+    // Validar que se haya introducido un nombre
     validateNameMin() {
       const nameLength = this.name.length;
       return nameLength > 0;
     },
 
     saveAttack() {
-      console.log("Token", localStorage.getItem('token'));
       let errorMessage = '';
 
       if (!this.validateNameMin()) {
@@ -85,11 +87,6 @@ export default {
         .then(response => {
           if (response.status === 201) {
             this.$router.push('/menuStore');
-          } else if (response.status === 412) {
-            return response.json().then(errorData => {
-            console.log('Error JSON:', errorData);
-            // Rest of the code...
-          });
           } else {
             throw new Error(`Unexpected response status: ${response.status}`);
           }

@@ -1,35 +1,37 @@
 <template>
+   <!-- Vista de creacion del jugador -->
   <div class="createchar">
-    <h1 class="createchartitle">{{title }}</h1>
+    <h1 class="createchartitle">{{ title }}</h1>
     <div class="content">
+       <!-- Vista introduccion datos del jugador a crear -->
       <section id="infochar">
         <form>
           <label for="NAME">NAME</label>
           <input type="text" id="name" name="name" required v-model="name">
 
           <label for="PASSWORD">PASSWORD</label>
-          <input type="text" id="password" name="password" required v-model="password">
+          <input type="password" id="password" name="password" required v-model="password">
 
           <label for="PASSWORD2">REPEAT PASSWORD</label>
-          <input type="text" id="password2" name="password2" required>
+          <input type="password" id="password2" name="password2" required v-model="passwordRepeat">
         </form>
 
         <h4>CHARACTER</h4>
-
+         <!-- VCargamos las diferentes imagenes a seleccionar -->
         <div class="characters">
-          <img src="@/assets/images/dracula.png" class="charsize" />
-          <img src="@/assets/images/dragon.png" class="charsize" />
-          <img src="@/assets/images/fantasma.png" class="charsize" />
-          <img src="@/assets/images/hada.png" class="charsize" />
-          <img src="@/assets/images/orco.png" class="charsize" />
-          <img src="@/assets/images/vikingo.png" class="charsize" />
+          <img src="src/assets/images/dracula.png" class="charsize"  @click="selectImage('src/assets/images/dracula.png')" :class="{ selected: selectedImage === 'src/assets/images/dracula.png' }" />
+          <img src="@/assets/images/dragon.png" class="charsize"   @click="selectImage('src/assets/images/dragon.png')" :class="{ selected: selectedImage === 'src/assets/images/dragon.png' }" />
+          <img src="@/assets/images/fantasma.png" class="charsize"  @click="selectImage('src/assets/images/fantasma.png')" :class="{ selected: selectedImage === 'src/assets/images/fantasma.png' }" />
+          <img src="@/assets/images/hada.png" class="charsize"  @click="selectImage('src/assets/images/hada.png')" :class="{ selected: selectedImage === 'src/assets/images/hada.png' }" />
+          <img src="@/assets/images/orco.png" class="charsize"  @click="selectImage('src/assets/images/orco.png')" :class="{ selected: selectedImage === 'src/assets/images/orco.png' }" />
+          <img src="@/assets/images/vikingo.png" class="charsize"   @click="selectImage('src/assets/images/vikingo.png')" :class="{ selected: selectedImage === 'src/assets/images/vikingo.png' }" />
         </div>
       </section>
-
-      <section class="charfinal">
-        <img src="@/assets/images/hada.png" class="charfinalsize" />
-        <h2>NAMECHAR</h2>
-        <button class= button3 @click="createNewChar">CREATE</button>
+      <!-- Vista previa imagen seleccionada y nombre del jugador -->
+      <section id="preview">
+        <img :src="selectedImage" v-if="selectedImage" class="charfinalsize" />
+        <p v-if="name">Name: {{ name }}</p>
+        <button class="button3" @click="createNewChar">CREATE</button>
       </section>
     </div>
   </div>
@@ -40,13 +42,44 @@ export default {
   data() {
     return {
       title: 'Create Character',
-      name : '',
-      password : '',
+      //Estructura de datos a obtener de la pantalla i enviar a la api
+      name: '',
+      password: '',
+      passwordRepeat:'',
+      selectedImage: '',
     };
   },
   methods: {
-  createNewChar() {
-    //convertimos la info en json
+    //Asignamos path imagen seleccionada 
+    selectImage(imagePath) {
+      this.selectedImage = imagePath;
+    },
+    //Comprobamos que se ha seleccionado una imagen 
+    createNewChar() {
+      if (!this.selectedImage) {
+        console.error('No has seleccionat cap imatge!');
+        return;
+      }
+      //Comprovamos que la contrasenya tiene menos de 21 caràcteres
+      if (this.password.length > 21) {
+        console.error('La contrasenya no es valida');
+        return;
+      }
+      //Comprobamos que el nombre tiene menos de 21 caracteres
+      if (this.name.length > 21) {
+        console.error('El nom no es valid');
+        return;
+      }
+      //Comprovamos que las dos contrasenyas coinciden
+      if (this.password !== this.passwordRepeat) {
+        console.error('Les contrasenyes no coincideixen');
+        return;
+      }
+      //Cambiamos la forma del path de la imagen para que esta se pueda mostrar i enviar correctamente
+      const imagePath = this.selectedImage.replace(/^@\/assets\//, '/');
+
+    
+      //Hacemos la llamada POST  a la API para así crear el personaje
       fetch('https://balandrau.salle.url.edu/i3/players', {
         method: 'POST',
         headers: {
@@ -55,19 +88,28 @@ export default {
         body: JSON.stringify({
           player_ID: this.name,
           password: this.password,
-          img: '   ',
-        },),
-      })  
+          img: imagePath,
+        }),
+      })
       .then(response => {
-      if (response.status === 201) {
-        this.$router.push('/menulogin');
-      } else if (response.status === 400) {
-        //tendras que desjonsar el json para que con los campos q te dan entindas mas el error  
-        return response.json();
-      } else {
-        throw new Error(`Unexpected response status: ${response.status}`);
-      }
-    })
+        if (response.status === 201) {
+          this.$router.push('/menulogin');
+        } else if (response.status === 400) {
+          return response.json();
+        } else {
+          throw new Error(`Unexpected response status: ${response.status}`);
+        }
+      })
+      .catch(error => {
+        console.error('Error creant el personatge:', error);
+
+        if (error.response) {
+          console.log('Response status:', error.response.status);
+          console.log('Response data:', error.response.data);
+        } else {
+          console.log('No hay información de respuesta disponible');
+  }
+});
     },
   },
 };
@@ -90,28 +132,45 @@ export default {
   margin: 0;
   padding: 0;
 }
-.button3{
+
+.button3 {
   background-image: url('@/assets/images/button.jpg');
+  width: 100%; 
+  margin: 10px 0;
+}
+
+
+
+.charsize.selected {
+  border: 2px solid orange; 
 }
 
 .content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 20px; 
   max-width: 900px; 
   margin: 0 auto; 
 }
 
 #infochar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   text-align: left;
 }
 
 #infochar form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+}
+
+#preview {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-top: 60px;
-
+  align-items: center;
+  justify-content: center;
 }
 
 .charsize {
@@ -119,14 +178,11 @@ export default {
   max-width: 70px; 
   height: auto;
 }
+
 .charfinalsize {
   width: 50%; 
   max-width: 350px; 
   height: auto;
-}
-.charfinal {
-  text-align: right;
-  margin-top: 30px;
 }
 
 .createchartitle {
@@ -140,6 +196,7 @@ export default {
   color: transparent;
   width: 100%;
 }
+
 #infochar form label {
   color:black; 
   font-weight: bold;

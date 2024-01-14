@@ -1,5 +1,5 @@
 <template>
-  <!-- viesta con la informacion del ataque seleccionado -->
+  <!-- vista con la informacion del ataque seleccionado -->
   <section v-if="attack" class="attackdetailview">
     <h1 class="attack-title">{{ attack.id }} Details</h1>
     <div class="info">

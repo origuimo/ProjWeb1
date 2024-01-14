@@ -1,4 +1,5 @@
 <template>
+  <!-- Vista de la pantalla de entrada al juego -->
     <div class="container" @click="navigateToOtherPage">
       <div class="titol1">
         <h1>{{ title }}</h1>

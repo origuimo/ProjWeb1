@@ -1,4 +1,5 @@
 <template>
+  <!-- Menu de la tienda que muestar las posibles acciones del usuario -->
   <section  class="menuStore">
     <div class="main-container">
       <aside  class="side-menu">
@@ -22,12 +23,15 @@ export default {
     };
   },
   methods: {
+    // Ir a create attack
     navigateToOption1() {
       this.$router.push('/createattackview');
     },
+    // Ir a sell attack
     navigateToOption2() {
       this.$router.push('/sellattackview');
     },
+    // Ir a ver available attacks
     navigateToOption3() {
       this.$router.push('/availableattacksview');
     },
@@ -45,14 +49,12 @@ export default {
   background-color: #f0f0f0;
   overflow: hidden; 
 }
-
 .main-container {
   display: flex;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 .store-title {
   font-size: 4vw; 
   margin: 2vw; 
@@ -62,7 +64,6 @@ export default {
   background-clip: text;
   color: transparent;
 }
-
 .side-menu {
   width: 50%; 
   background-color: black;
@@ -74,7 +75,6 @@ export default {
   justify-content: center;
   height: 100vh;
 }
-
 .menu-button {
   width: 100%;
   padding: 5vw; 
@@ -88,7 +88,6 @@ export default {
   align-items: center;
   text-align: center;
 }
-
 .content {
   flex: 1;
   overflow: hidden;
@@ -96,7 +95,6 @@ export default {
   flex-direction: column;
   width: 50%; 
 }
-
 .content img {
   width: 100%;
   height: 100%;

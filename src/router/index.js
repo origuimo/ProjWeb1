@@ -31,7 +31,7 @@ const routes = [
   { path: '/newgame', component: NG },
     { path: '/createchar', component: CC },
     { path: '/availablegames', component: AG },
-    { path: '/gameView/:files', 
+    { path: '/gameView/:files/:source/:id', 
       name: 'gameView',
       component: GV,
       props: true,

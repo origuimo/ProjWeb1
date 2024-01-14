@@ -41,17 +41,19 @@
       return {
         title: 'Info Game',
         gameDetails: null,
+        id: 0,
       };
     },
     async mounted() {
     const gameID = this.$route.params.gameID;
-    console.log("Game ID:", gameID);
+    this.id = gameID;
+    console.log("Game ID:", this.id);
     if (gameID) {
       await this.fetchGameDetails(gameID);
     }
   },
     computed: {
-
+        
       ...mapState(['primerNumero', 'segundoNumero', 'nom']),
       dynamicGridGap() {
         const baseGap = 5;
@@ -90,7 +92,7 @@
     if (this.gameDetails && this.gameDetails.size) {
       this.$router.push({
         name: 'gameView',
-        params: { files: this.gameDetails.size }
+        params: { files: this.gameDetails.size, source: 'infoGame', id: this.id}
       });
     } else {
       console.error("Game details are not available");

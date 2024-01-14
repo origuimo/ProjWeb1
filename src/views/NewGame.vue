@@ -92,6 +92,9 @@ export default {
         });
       }
     },
+    playGame(){
+
+    },
     callApi() {
       const requestData = {
         game_ID: this.nom,
@@ -112,6 +115,10 @@ export default {
               icon: 'success',
               title: 'Success',
               text: 'You have entered the game as Player1. Good luck!',
+            });
+            this.$router.push({
+              name: 'gameView',
+              params: { files: this.firstNumber, source: 'newGame', id: 0}
             });
           } else if(res.status == 403) {
             Swal.fire({

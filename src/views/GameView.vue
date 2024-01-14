@@ -36,6 +36,7 @@ export default {
       playerDirection: 'Norte',
       attacks: [ ],
       selectedAttack: null,
+      id: 0,
     };
   },
 
@@ -43,9 +44,16 @@ export default {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
     this.files = parseInt(this.$route.params.files);
-    this.placePlayerRandomly();
     window.addEventListener('keydown', this.handleKeyPress);
     this.callApi();
+    this.source = this.$route.params.source;
+    if (this.source === 'newGame') {
+      this.placePlayerRandomly(0);
+    }else{
+      this.placePlayerRandomly(1);
+      this.id = this.$route.params.id
+      this.callApiplay();
+    }
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.handleKeyPress);
@@ -59,9 +67,14 @@ export default {
     handleResize() {
       this.gridWidth = this.calculateGridWidth();
     },
-    placePlayerRandomly() {
+    placePlayerRandomly(jugador) {
       const totalSquares = this.files * this.files;
-      this.playerPosition = Math.floor(Math.random() * totalSquares);
+      if(jugador == 1){
+        this.playerPosition = Math.floor(Math.random() * totalSquares/2);
+      }else{
+        this.playerPosition = Math.floor(Math.random() * (totalSquares - totalSquares/2) + totalSquares/2);
+        console.log("holaque", this.playerPosition, totalSquares);
+      }
     },
     handleKeyPress(event) {
       const size = this.files;
@@ -94,7 +107,7 @@ export default {
           }
           break;
       }
-      console.log("ei", this.atack)
+
       this.playerPosition = row * size + col;
     },
     launchAttack(positions) {
@@ -156,6 +169,28 @@ export default {
         if (response.ok) {
           const data = await response.json();
           this.attacks = data; 
+        } else {
+          throw new Error(`Failed with status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    },
+    async callApiplay() {
+      try {
+        const response = await       
+        fetch(`https://balandrau.salle.url.edu/i3/arenas/${this.id}/play`, {
+        method: 'POST',
+        headers: {
+          "Bearer": localStorage.getItem('token'), 
+          'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          this.attacks = data;
+          console.log("hola", data);
         } else {
           throw new Error(`Failed with status: ${response.status}`);
         }

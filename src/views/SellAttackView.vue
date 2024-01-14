@@ -15,7 +15,9 @@
         <input type="text" v-model="price" placeholder="Enter price" class="input-field" />
       </div>
     </form>
-      <button type="submit" class="sell-button">Mark for sell</button>
+    <label>
+      <button @click="sellAttack" class="sell-button">Mark for sell</button>
+    </label>
   </section>
 </template>
 
